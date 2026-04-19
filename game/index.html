@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Zombie-Battle-Royale im Schulhof</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="game">
+
+    <header id="hud">
+        <div id="hearts" class="hud-cell" title="Leben"></div>
+        <div id="timer" class="hud-cell" title="Zeit">⏱️ --</div>
+        <div id="zombie-counter" class="hud-cell" title="Zombies in der Schule">🧟 --</div>
+        <button id="help-btn" class="hud-cell" title="Hilfe (H)">❓</button>
+        <button id="pause-btn" class="hud-cell" title="Pause (ESC)">⏸️</button>
+    </header>
+
+    <main id="stage">
+        <div id="scene-image-wrap">
+            <img id="scene-image" alt="Szenen-Bild">
+            <div id="combat-area" class="hidden"></div>
+        </div>
+        <div id="scene-content">
+            <div id="scene-text"></div>
+            <div id="scene-choices"></div>
+        </div>
+    </main>
+
+    <aside id="inventory">
+        <div class="inventory-label">Inventar</div>
+        <div id="inventory-slots"></div>
+        <div class="inventory-hint">Taste 1–9</div>
+    </aside>
+
+    <div id="overlay" class="hidden">
+        <div id="overlay-content"></div>
+    </div>
+
+</div>
+
+<script src="scenes.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
