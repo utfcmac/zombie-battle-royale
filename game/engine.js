@@ -42,6 +42,9 @@ function buildInventorySlots() {
 function wireButtons() {
     document.getElementById("help-btn").addEventListener("click", toggleHelp);
     document.getElementById("pause-btn").addEventListener("click", togglePause);
+    document.getElementById("reset-btn").addEventListener("click", () => {
+        if (confirm("Speicherstand wirklich löschen und neu starten?")) resetGame();
+    });
 }
 
 function wireKeyboard() {
