@@ -198,6 +198,73 @@ body {
     justify-content: center;
 }
 
+#combat-area.bb-combat {
+    background: rgba(0, 0, 0, 0.45);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: stretch;
+    transition: background 0.12s;
+}
+
+#combat-area.bb-hit-flash {
+    background: rgba(255, 60, 60, 0.5) !important;
+}
+
+.bb-hud {
+    background: rgba(15, 19, 17, 0.88);
+    border-bottom: 1px solid var(--accent-dim);
+    padding: 8px 16px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    color: var(--text);
+    font-size: 0.95rem;
+    flex: 0 0 auto;
+}
+
+.bb-wave { color: var(--accent); font-weight: bold; letter-spacing: 1px; }
+.bb-time { font-variant-numeric: tabular-nums; }
+.bb-info { margin-left: auto; color: var(--text-dim); font-size: 0.85rem; }
+
+.bb-field {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.bb-zombie, .bb-player, .bb-ball {
+    position: absolute;
+    top: 0;
+    left: 0;
+    will-change: transform;
+    pointer-events: none;
+    user-select: none;
+    line-height: 1;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.85));
+}
+
+.bb-zombie { width: 96px; height: auto; }
+.bb-player {
+    width: 80px;
+    height: auto;
+    transition: opacity 0.05s;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.9));
+}
+.bb-ball { font-size: 36px; }
+
+#stage.combat-active #scene-image {
+    filter: brightness(0.75) saturate(0.25) blur(2px);
+    transition: filter 0.3s ease;
+}
+
+#stage.combat-active #scene-content {
+    opacity: 0.25;
+    pointer-events: none;
+}
+
 #inventory {
     width: var(--inventory-width);
     height: var(--stage-height);

@@ -1,28 +1,7 @@
-const ITEMS = {
-    baseballschlaeger: {
-        id: "baseballschlaeger",
-        name: "Baseballschläger",
-        icon: "🏏",
-        passive: true,
-        description: "+3 Bonus im Würfelkampf."
-    },
-    verbandskasten: {
-        id: "verbandskasten",
-        name: "Verbandskasten",
-        icon: "🩹",
-        passive: false,
-        description: "Heilt 1 Herz.",
-        use: () => {
-            if (gameState.hearts >= gameState.maxHearts) {
-                toast("Schon volle Herzen!");
-                return false;
-            }
-            gameState.hearts++;
-            toast("+1 ❤️ geheilt!");
-            return true;
-        }
-    }
-};
+// Szenen-Graph. Jede Szene:
+//   id, image, text, onEnter?, choices[]
+// Choice: { label, target?, onSelect?, condition? }
+// Ein Minispiel starten: in onSelect `start<Name>(onWin, onLose)` aufrufen.
 
 const SCENES = {
     start: {
@@ -36,14 +15,43 @@ const SCENES = {
             }
         },
         choices: [
-            { label: "Zur Sporthalle rennen", target: "sporthalle" },
+            { label: "Rüber zum Basketballplatz", target: "basketballplatz" },
             { label: "Erstmal verstecken (Verbandskasten-Dropp testen)", target: "versteck" }
         ]
     },
-    sporthalle: {
-        id: "sporthalle",
-        image: "images/sporthalle.png",
-        text: "Du stürmst in die Sporthalle. Der riesige Zombie-Sportlehrer pfeift und wirft Basketbälle nach dir!\n\n(Dummy: hier kommt später der Reaktionskampf.)",
+    basketballplatz: {
+        id: "basketballplatz",
+        image: "images/basketballplatz_intro.png",
+        text: "Du kommst um die Ecke — da steht er schon auf dem überdachten Basketballplatz. Der Zombie-Sportlehrer. Pfeife um den Hals, Ball in der Hand, und er hat dich entdeckt.\n\nSteuerung: A / D (oder ← →) zum Ausweichen. Jeder Ball = -1 ❤️.\nÜberlebe 30 Sekunden, dann ist er platt.",
+        choices: [
+            {
+                label: "🏏 Los geht's — reingehen!",
+                onSelect: () => {
+                    startBasketballAusweichen(
+                        () => showScene("basketballplatz_sieg"),
+                        () => showScene("basketballplatz_fail")
+                    );
+                }
+            },
+            { label: "Nee, zurück zum Pausenhof", target: "start" }
+        ]
+    },
+    basketballplatz_sieg: {
+        id: "basketballplatz_sieg",
+        image: "images/basketballplatz_kampf.png",
+        text: "Der letzte Ball geht daneben und knallt in den Zaun. Der Sportlehrer stolpert, verliert den Halt, geht zu Boden. Der Platz gehört dir.\n\n(Platzhalter — später geht's von hier Richtung Dach.)",
+        onEnter: () => {
+            gameState.zombiesKilled = (gameState.zombiesKilled || 0) + 1;
+            gameState.zombiesRemaining = Math.max(0, gameState.zombiesRemaining - 1);
+        },
+        choices: [
+            { label: "Durchatmen. Zurück zum Pausenhof.", target: "start" }
+        ]
+    },
+    basketballplatz_fail: {
+        id: "basketballplatz_fail",
+        image: "images/basketballplatz_kampf.png",
+        text: "Der Ball trifft voll. Du liegst am Boden, der Sportlehrer steht grinsend über dir. In letzter Sekunde krabbelst du unter dem Zaun durch und rennst.\n\n(Platzhalter — du kannst es nochmal probieren.)",
         choices: [
             { label: "Zurück zum Pausenhof", target: "start" }
         ]

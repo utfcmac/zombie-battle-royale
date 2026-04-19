@@ -63,23 +63,22 @@ Das Spiel ist ein interaktives Text-Abenteuer mit Mini-Kämpfen, Zeitdruck und Z
 
 ### Steuerung (Desktop-only)
 
-| Taste | Story | Labyrinth | Reaktionskampf | Andere Kämpfe |
-|-------|-------|-----------|----------------|---------------|
-| **Maus-Klick** | Entscheidung wählen | – | – | Angreifen/Timing |
-| **1–9** | Item aus Slot nutzen | Item nutzen | Item nutzen | Item nutzen |
-| **W** | – | hoch | Springen | – |
-| **A** | – | links | Block | – |
-| **S** | – | runter | Ducken | – |
-| **D** | – | rechts | – | – |
-| **Space** | Weiter (bei langem Text) | Tür / Aufheben | – | – |
-| **ESC** | Pause | Pause | Pause | Pause |
-| **H** | Hilfe (Cheat-Sheet) | Hilfe | Hilfe | Hilfe |
-| **Enter** | Restart (Game Over) | – | – | – |
+Die Story nutzt nur Maus + Zahlentasten. Jedes Minispiel bringt seine eigene Tastenbelegung mit (dokumentiert im jeweiligen File in [game/minigames/](../game/minigames/)). Gemeinsamer Grundsatz: **A / D** (oder **← / →**) für Bewegung, **W / Space** für Aktion.
+
+| Taste | Story | Minispiele (Default) |
+|-------|-------|----------------------|
+| **Maus-Klick** | Entscheidung wählen | spielabhängig |
+| **1–9** | Item aus Slot nutzen | Item nutzen |
+| **A / ←** | – | Bewegen links |
+| **D / →** | – | Bewegen rechts |
+| **W / Space** | Weiter (bei langem Text) | Aktion (Sprung / Werfen / Aufheben) |
+| **ESC** | Pause | Pause |
+| **H** | Hilfe (Cheat-Sheet) | Hilfe |
+| **Enter** | Restart (Game Over) | – |
 
 **Hinweise:**
 
 - Entscheidungen in der Story werden **nur per Maus** gewählt – keine Tastenkürzel, damit 1–9 immer eindeutig Item-Slots sind.
-- Pfeiltasten sind bewusst nicht belegt (spart `preventDefault` fürs Seiten-Scrollen und hält die Belegung konsistent).
 - Aktive vs. passive Items: Passive Items (z. B. Baseballschläger) wirken automatisch als Bonus, aktive (z. B. Chemie-Bombe) werden per Zahlentaste ausgelöst.
 
 ## 4. Detaillierte Szenen & Interaktionen
@@ -92,7 +91,7 @@ Das Spiel ist ein interaktives Text-Abenteuer mit Mini-Kämpfen, Zeitdruck und Z
 **Tag 1 (Kernversion):**
 
 1. Pausenhof (Start)
-2. Sporthalle
+2. Basketballplatz
 3. Dach (Finale)
 
 **Tag 2+ (Erweiterung):**
@@ -109,17 +108,17 @@ Das Spiel ist ein interaktives Text-Abenteuer mit Mini-Kämpfen, Zeitdruck und Z
 
 Mögliche Buttons:
 
-- Zur Sporthalle rennen
+- Rüber zum Basketballplatz
 - Durch den Klassenraum-Flur schleichen (Tag 2+)
 - Zum Chemieraum (Tag 2+)
 - In die Bibliothek schleichen (Tag 2+)
 - (später: „Hubschrauber rufen" – nur mit Item „Funkgerät")
 
-#### Szene 2 – Sporthalle
+#### Szene 2 – Basketballplatz
 
 **Text:** „Der riesige Zombie-Sportlehrer pfeift und wirft Basketbälle nach dir!"
 
-→ **Kampf-Typ:** Reaktionskampf (siehe Kapitel 5)
+→ **Kampf-Typ:** Basketball-Ausweichen (Minispiel, siehe Kapitel 5)
 
 Buttons:
 
@@ -180,7 +179,7 @@ Je nach Zustand:
 **Sammelbare Items:**
 
 - Chemie-Bombe (Chemieraum) → besiegt ganze Zombie-Welle
-- Basketball (Sporthalle) → +0,5s im Reaktionskampf, Ablenkung im Labyrinth
+- Basketball (Basketballplatz) → +0,5s im Reaktionskampf, Ablenkung im Labyrinth
 - Buch der Überlebenden (Bibliothek) → zeigt Zombie-Routen im Labyrinth kurz an
 - Funkgerät (verstecktes Item) → ruft Hubschrauber früher
 - Verbandskasten (Zufallsdrop) → heilt 1 Herz
@@ -192,9 +191,11 @@ Je nach Zustand:
 - **Hero-Ende** (Tag 2+) → du rettest noch einen Freund und fliegt zusammen weg
 - **Secret Ending** (Tag 2+) → Zombie-Counter auf 0 → du bist der Held, der die Schule rettet
 
-## 5. Kampfsystem – verschiedene Kampftypen
+## 5. Kampfsystem – Minispiele pro Ort
 
-Damit das Spiel nicht langweilig wird, gibt es **5 verschiedene Kampf-Mini-Games**. Jeder Zombie-Typ hat seinen eigenen Stil – passend zum ehemaligen Lehrerberuf oder Ort.
+Jeder Kampfort ist ein **eigenes kleines Arcade-Spiel** mit Bewegung, Steuerung und eigener Mechanik — **keine** QTE-/Reaktions-Prompts. Sprites bewegen sich, der Spieler steuert aktiv, die Schwierigkeit steigt innerhalb eines Minispiels (Wellen-Prinzip).
+
+Jedes Minispiel liegt als eigene Datei unter [game/minigames/](../game/minigames/) und folgt demselben Muster (siehe Kapitel 6). **Basketball-Ausweichen** ist die Referenzimplementierung — die anderen sind aktuell TODO-Stubs mit Auto-Sieg zum Testen.
 
 ### 5.1 ⚔️ Würfelkampf (Standard)
 
@@ -210,14 +211,20 @@ Wurf: 14 + Baseballschläger (+3) = 17 → Treffer! Zombie besiegt.
 
 **Lerneffekt:** Wahrscheinlichkeit, Zufallszahlen, Bonus-Addition.
 
-### 5.2 ⚡ Reaktionskampf
+### 5.2 🏀 Basketball-Ausweichen *(Referenzspiel — fertig implementiert)*
 
-**Gegen:** Zombie-Sportlehrer (wirft Basketbälle)
-**Mechanik:** Ein Symbol erscheint (Pfeil hoch = Springen, Pfeil runter = Ducken, Schild = Block). Du drückst innerhalb von 1,5 Sekunden die passende Taste: **W** (Springen), **S** (Ducken), **A** (Block). 3 richtige in Folge → Sieg. Ein Fehler → -1 Herz.
+**Gegen:** Zombie-Sportlehrer, rennt am oberen Bildschirmrand hin und her und wirft Basketbälle
+**Mechanik:** Echtzeit-Ausweichspiel auf dem Basketballplatz-Hintergrundbild. Alex läuft am unteren Rand mit **A / D** (oder **← / →**). Bälle fallen / fliegen von oben. Ein Treffer kostet ein Herz + kurze Unverwundbarkeit (Flacker-Effekt). **30 Sekunden durchhalten = Sieg.**
 
-**Variation:** Mit Item „Basketball" hast du 2 Sekunden pro Reaktion statt 1,5.
+**Schwierigkeits-Wellen:**
 
-**Lerneffekt:** Reaktionszeit, `setTimeout`, Keyboard-Events.
+1. **0–10 s:** Bälle fallen gerade, Zombie wirft langsam
+2. **10–20 s:** Wurf-Frequenz steigt, Zombie läuft schneller
+3. **20–30 s:** Bälle haben leichten Winkel und prallen von Seitenwänden ab
+
+**Code:** [game/minigames/basketball.js](../game/minigames/basketball.js) — `startBasketballAusweichen(onWin, onLose)`. Pattern-Referenz für alle weiteren Minispiele.
+
+**Lerneffekt:** Game-Loop mit `requestAnimationFrame`, Delta-Time-Bewegung, AABB-Kollision, Keyboard-Events, Wellen-Logik.
 
 ### 5.3 🧭 Labyrinth-Flucht
 
@@ -279,7 +286,7 @@ Wurf: 14 + Baseballschläger (+3) = 17 → Treffer! Zombie besiegt.
 **Gegen:** Direktor-Zombie auf dem Dach
 **Mechanik:** 3-Phasen-Kampf, jede Phase ein anderer Kampf-Typ:
 
-1. **Phase 1** – Reaktionskampf (Direktor wirft Akten)
+1. **Phase 1** – Ausweichen (Direktor wirft Akten, wie Basketball-Minispiel)
 2. **Phase 2** – Mini-Labyrinth (Direktors Handlanger blockieren den Weg zum Hubschrauber)
 3. **Phase 3** – Würfelkampf mit allen gesammelten Item-Boni
 
@@ -287,14 +294,14 @@ Wurf: 14 + Baseballschläger (+3) = 17 → Treffer! Zombie besiegt.
 
 ### Kampf-Übersichtstabelle
 
-| Kampf-Typ | Gegner | Dauer | Item-Boost |
-|-----------|--------|-------|------------|
-| Würfelkampf | Standard-Zombies | ~10s | Baseballschläger +3 |
-| Reaktionskampf | Sportlehrer | ~5s | Basketball +0,5s Zeit |
-| Labyrinth-Flucht | Klassenraum-Zombies | ~30s | Buch = Routen sichtbar, Basketball = Ablenkung |
-| Bomben-Timing | Chemie-Zombies | ~3s | Chemie-Bombe nötig |
-| Stealth | Bibliotheks-Zombies | offen | Buch = keine Weckgefahr |
-| Boss-Fight | Direktor | ~45s | alle Items kombiniert |
+| Minispiel | Gegner | Dauer | Status | Item-Boost |
+|-----------|--------|-------|--------|------------|
+| Würfelkampf | Standard-Zombies | ~10s | TODO | Baseballschläger +3 |
+| Basketball-Ausweichen | Sportlehrer | 30s | **fertig** | Basketball = Zusatzleben |
+| Labyrinth-Flucht | Klassenraum-Zombies | 30s | TODO | Buch = Routen sichtbar, Basketball = Ablenkung |
+| Bomben-Timing | Chemie-Zombies | ~10s | TODO | Chemie-Bombe nötig |
+| Stealth | Bibliotheks-Zombies | offen | TODO | Buch = keine Weckgefahr |
+| Boss-Fight | Direktor | ~45s | TODO | alle Items kombiniert |
 
 ## 6. Technische Hinweise für den Bau
 
@@ -315,22 +322,47 @@ Alles im Spielbereich hat feste Pixelmaße – vereinfacht Bildergenerierung, La
 
 **Viewport-Hinweis:** Gesamtseite ~1435×1000 px → benötigt Monitor mit ≥1440×1050. Auf kleineren Displays wird gescrollt. Alle Werte sind CSS-Variablen in `:root` – eine Änderung dort skaliert alles.
 
-### Code-Gerüst
+### Code-Struktur
 
-- Der Code aus der letzten Nachricht ist der Grundstein.
-- Zustand (Herzen, Timer, Inventar, Zombie-Counter) als einfaches JS-Objekt `gameState`.
-- Speichern mit `localStorage.setItem('zombieSave', JSON.stringify(gameState))`.
-- Timer pro Szene via `setInterval`, beim Szenenwechsel immer `clearInterval`!
-- Bilder über `img`-Tags (KI-generiert, einmal pro Ort reicht).
-- Kampf-Mini-Games als eigene Funktionen (`startReaktionsKampf()`, `startWürfelKampf()`, `startLabyrinth()` etc.) – macht den Code sauber.
-- Labyrinth-Grid als 2D-Array (`grid[y][x]`) im 1280×720-Bild-Bereich: bei 16×9 Tiles je 80×80 px (saubere Quadrate!), bei 10×6 Tiles je 128×120 px. Werte: `'.'` = frei, `'#'` = Wand, `'Z'` = Zombie, `'P'` = Player, `'D'` = Tür.
-- Alles läuft offline nach dem Speichern – super praktisch.
+Der Code ist auf mehrere Dateien verteilt, damit jedes Minispiel eigenständig ist und neue leicht dazukommen. `index.html` lädt die Scripte in dieser Reihenfolge (globale Funktionen von oben nach unten):
+
+```
+game/
+├── index.html          ← Markup + Script-Ladereihenfolge
+├── style.css           ← CSS-Variablen, Grid, Inventar, Combat-Overlay
+├── items.js            ← ITEMS-Registry (Item-Definitionen + Effekte)
+├── minigames/
+│   ├── basketball.js   ← startBasketballAusweichen()  [REFERENZ, fertig]
+│   ├── wuerfel.js      ← startWuerfelKampf()          [TODO-Stub]
+│   ├── labyrinth.js    ← startLabyrinth()             [TODO-Stub]
+│   ├── bombe.js        ← startBombenTiming()          [TODO-Stub]
+│   └── stealth.js      ← startStealth()               [TODO-Stub]
+├── scenes.js           ← SCENES-Graph; ruft start<Minispiel>(onWin, onLose)
+└── engine.js           ← Core: gameState, showScene, HUD, Inventar, Save/Load
+```
+
+**Muster für Minispiele** (siehe `basketball.js` als Referenz):
+
+1. Globale Funktion `start<Name>(onWin, onLose)` wird aus einer Szenen-Wahl aufgerufen.
+2. Minispiel füllt `#combat-area` mit eigenem DOM, blendet `.hidden` aus.
+3. Eigener Input-Loop (Keyboard-Handler + `requestAnimationFrame`).
+4. Bei Sieg: aufräumen (Listener entfernen, `combatArea.classList.add('hidden')`, DOM leeren) → `onWin()`. Bei Niederlage dasselbe → `onLose()`.
+5. Die Szene entscheidet über Bild (`_kampf.png` als Arcade-Hintergrund) und Folgeszene (`_sieg` / `_fail`).
+
+**Zustand & Persistenz (in `engine.js`):**
+
+- `gameState` (Herzen, Timer, Inventar, Zombie-Counter) als einfaches JS-Objekt.
+- Speichern mit `localStorage.setItem('zombieSave', JSON.stringify(gameState))` nach jedem Szenenwechsel.
+- Szenentimer via `setInterval`, beim Szenenwechsel immer `clearInterval`.
+- Bilder über `<img>`-Tag (KI-generiert, eine Datei pro Phase — siehe [bilder-und-layout.md](bilder-und-layout.md)).
+- Labyrinth-Grid (geplant) als 2D-Array (`grid[y][x]`) im 1280×720-Bild-Bereich: bei 16×9 Tiles je 80×80 px.
+- Alles läuft offline nach einmaligem Laden.
 
 ## 7. Tipps für den 1-Tag-Bau
 
 - **Vormittag (Story & Assets):** Story-Texte mit KI schreiben, Bilder für die 3 Kern-Orte generieren
 - **Mittag (Kern-Code):** HTML-Grundgerüst, Szenen-Wechsel, Inventar, `gameState`
-- **Nachmittag (Kampf-System):** Würfelkampf + Reaktionskampf bauen und testen
+- **Nachmittag (Kampf-System):** Basketball-Ausweichen spielen + ein zweites Minispiel nach gleichem Muster bauen
 - **Abend (Polish):** Timer, Herzen, Zombie-Counter, Highscore in `localStorage`
 - **Bonus-Tag (Tag 2):** Klassenraum-Flur mit Labyrinth, Chemieraum, Bibliothek, Boss-Fight
 
