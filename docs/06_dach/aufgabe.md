@@ -10,7 +10,7 @@
 
 ### Hintergrundbild `dach.png`
 
-> 📸 **Referenzfoto:** `docs/originalschauplätze/basketballplatz_luft.jpg` — Luftaufnahme des Schulgeländes mit dem markanten weißen Kuppeldach in der Mitte. Du kannst es mit in Gemini hochladen.
+> 📸 **Referenzfoto:** `docs/06_dach/basketballplatz_luft.jpg` — Luftaufnahme des Schulgeländes mit dem markanten weißen Kuppeldach in der Mitte. Du kannst es mit in Gemini hochladen.
 
 ```
 In the exact style of a LucasArts adventure game background:
@@ -26,10 +26,8 @@ with a suburban skyline in the far distance under an overcast sky.
 The schoolyard, paths, and courtyards are swarming with dozens of shambling zombies —
 teachers, students, a janitor, a cook — stumbling between the buildings, crowding the
 basketball court, shuffling along the footpaths. Clear zombie silhouettes from above.
-
-Hovering in the air directly above the white dome roof in the center: a rescue
-helicopter, close to the rooftop, rotor blades spinning with motion blur, a rope
-ladder dangling down toward the dome. The helicopter should be the clear focal point.
+The white dome roof in the center is the clear focal point — empty, untouched, the
+only safe spot in the whole scene.
 
 STYLE: Stylized painterly cartoon illustration, slightly brushy textures, high contrast,
 clear silhouettes, dark but vibrant palette — dominated by mossy greens, moody greys,
@@ -39,23 +37,25 @@ Goosebumps book covers, Hotel Transylvania. Spooky but kid-friendly (age 10–14
 ATMOSPHERE: Overcast sky with a sickly yellow-green tint. Low ground fog drifting
 between the trees and across the schoolyard. Long diagonal shadows from the late
 afternoon sun. Dried leaves and torn paper pages swirling in cold wind. Subtle
-volumetric light rays cutting through the clouds around the helicopter.
+volumetric light rays cutting through the clouds.
 
 TECHNICAL: 16:9 aspect ratio, 1280x720 resolution, aerial top-down perspective
-(slight tilt), sharp focus on the helicopter and the white dome roof,
+(slight tilt), sharp focus on the white dome roof in the center,
 slight atmospheric depth-of-field on the surrounding treetops.
 No text, no speech bubbles, no UI overlays, no watermarks. No gore.
 ```
 Speichere als `game/06_dach/assets/dach.png`.
 
-### 🎬 Video aus dem Bild generieren (Veo 3.1)
+### 🎬 Video aus einem Hubschrauber-Bild generieren (Veo 3.1)
 
-Aus dem eben erstellten Bild kannst du in Gemini direkt ein kurzes Animations-Video machen — perfekt für die Endszene.
+Für die eigentliche Endszene nutzen wir **ein anderes Bild** als Start-Frame — nämlich eine Nahaufnahme vom Hubschrauber über dem Dach. Das Referenz-Bild liegt schon bereit:
+
+> 📸 **Start-Frame:** `docs/06_dach/hubschrauber.png`
 
 1. Geh auf [gemini.google.com](https://gemini.google.com).
-2. Lade dein eben generiertes Dach-Bild hoch (das Comic-Bild mit dem Hubschrauber).
+2. Lade `docs/06_dach/hubschrauber.png` hoch.
 3. Wähle im Prompt-Feld die Option **„Videos"** — oder beginne deinen Prompt mit `Generate a video from this image`.
-4. Veo 3.1 nimmt dein Bild als Start-Frame und animiert es (bis zu ca. 8 Sekunden, 720p oder höher je nach Plan).
+4. Veo 3.1 nimmt das Bild als Start-Frame und animiert es (bis zu ca. 8 Sekunden, 720p oder höher je nach Plan).
 
 **Prompt:**
 ```
@@ -94,70 +94,89 @@ Speichere als `game/06_dach/assets/hubschrauber.png`.
 
 ---
 
-## 🤖 Endszene und Animation mit Claude Code bauen
+## ✍️ Dialogtexte für die Endszene ausdenken
 
-Öffne Claude Code und paste diesen Prompt:
+Jetzt kommt der kreative Teil: **Denk dir drei kurze Erzähltexte aus**, einer pro Szene. Die Endszene läuft in drei Stufen:
+
+1. **Szene 1 — Das Dach ist leer** (Bild: `dach.png`)
+   Du hast es aufs Dach geschafft. Unter dir die Horde, aber hier oben erstmal Ruhe.
+   → Schreib einen Text, der diesen Moment einfängt (1–3 Sätze).
+
+2. **Szene 2 — Ein Hubschrauber taucht auf** (Bild: `hubschrauber.png`)
+   In der Ferne Motorengeräusch. Rettung kommt.
+   → Schreib einen Text für den Moment des Entdeckens / der Hoffnung (1–3 Sätze).
+
+3. **Szene 3 — Der Hubschrauber fliegt weg** (Video: `dach_ende.mp4`)
+   Du bist an Bord, der Hubschrauber steigt auf und dreht ab.
+   → Schreib einen Abschlusstext — Triumph, Abspann, oder ein Cliffhanger (1–3 Sätze).
+
+Trag deine drei Texte hier ein, damit du sie gleich beim Einbau parat hast:
 
 ```
-Ich baue ein Browser-Spiel (Vanilla JS, kein Framework).
+SZENE 1 (Dach leer):
 
-Schritt 1 — Dach-Asset in scenes.js eintragen:
-In game/scenes.js bei der Szene "dach":
-Ändere image zu "06_dach/assets/dach.png"
-(die Datei wird gleich durch Gemini erstellt und liegt dann dort).
 
-Schritt 2 — Hubschrauber-Animation:
-Erstelle die Datei game/06_dach/endszene.js mit der Funktion startEndszene(onFinish).
-Die Funktion soll:
-1. Den Hubschrauber (06_dach/assets/hubschrauber.png) als <img> in #combat-area einbauen.
-   Startposition: rechts außerhalb des Bildschirms (left: 110%).
-2. Den Hubschrauber mit einer CSS-Transition (3 Sekunden, ease-in-out) nach links fliegen lassen bis left: 35%.
-3. Nach 3,5 Sekunden ein Seil animieren: ein schmales div (4px breit, braun) wächst von height: 0 auf height: 180px nach unten (Transition 1,5 Sekunden).
-4. Nach weiteren 2 Sekunden: combat-area leeren, onFinish() aufrufen.
+SZENE 2 (Hubschrauber da):
 
-Schritt 3 — In scenes.js einbinden:
-In der Szene "dach" soll es keinen direkten Button mehr geben.
-Stattdessen: onEnter ruft startEndszene(() => showScene("dach_ende")) auf.
-Erstelle die neue Szene "dach_ende" mit:
-  image: "06_dach/assets/dach.png"
-  text: "🎉 Gerettet!\nDu hast es geschafft."
-  choices: [{ label: "Nochmal spielen", target: "start" }]
 
-Schritt 4 — Script-Tag:
-Füge <script src="06_dach/endszene.js"></script> in game/index.html vor scenes.js ein.
+SZENE 3 (Hubschrauber fliegt weg):
+
 ```
 
 ---
 
-## 🎙️ Epischen Abschluss-Ton mit ElevenLabs
+## 🎙️ Texte vertonen mit ElevenLabs (optional)
 
-Wähle eine dramatische Erzählstimme. Speichere in `game/06_dach/assets/`.
+Wenn du deine drei Texte auch als Sprachausgabe haben willst: auf [elevenlabs.io](https://elevenlabs.io) eine dramatische Erzählstimme auswählen und die drei Texte einzeln einsprechen lassen. Speichere als:
 
-**`dach_voice_ankunft.mp3`** — beim Betreten des Dachs:
-```
-Das Dach. Unter dir die Horde.
-Aber die kommen hier nicht rauf.
-```
+- `game/06_dach/assets/dach_voice_ankunft.mp3` — Szene 1
+- `game/06_dach/assets/dach_voice_hubschrauber.mp3` — Szene 2
+- `game/06_dach/assets/dach_voice_abflug.mp3` — Szene 3
 
-**`dach_voice_hubschrauber.mp3`** — wenn der Hubschrauber erscheint:
-```
-Da. In der Ferne.
-Ein Hubschrauber.
-Er kommt näher.
-```
+> ⚠️ **Achtung Ton-Konflikt:** Das Veo-Video in Szene 3 hat einen eigenen Sound (Rotorgeräusch etc.). Wenn du gleichzeitig dein eigenes Voice-Over abspielst, überlagern sich die Töne. Varianten:
+> - Video stummschalten (`video.muted = true`) → nur Voice-Over zu hören.
+> - Voice-Over weglassen für Szene 3 → nur der Video-Ton bleibt.
+> - Beides — einfach ausprobieren, ob die Mischung gut klingt.
+>
+> Ausprobieren und entscheiden, was besser wirkt.
 
-**`dach_voice_gerettet.mp3`** — beim Sieg:
-```
-Du greifst zu.
-Winner, winner — Zombie dinner.
-```
+---
 
-Dann Claude Code bitten:
+## 🤖 Endszene mit Claude Code bauen
+
+Öffne Claude Code und paste diesen Prompt (ersetze die `<…>`-Platzhalter durch deine eigenen Texte):
+
 ```
 In game/scenes.js:
-- In dach.onEnter: spiele "06_dach/assets/dach_voice_ankunft.mp3"
-In game/06_dach/endszene.js:
-- Wenn der Hubschrauber ins Bild einfliegt (nach Transition-Start): spiele "06_dach/assets/dach_voice_hubschrauber.mp3"
-- Wenn onFinish aufgerufen wird: spiele "06_dach/assets/dach_voice_gerettet.mp3"
-Benutze new Audio(...).play().
+
+Ersetze die bestehende Szene "dach" durch drei aufeinanderfolgende Szenen.
+
+Szene 1: id "dach"
+  image: "06_dach/assets/dach.png"
+  audio: "06_dach/assets/dach_voice_ankunft.mp3"   (falls vorhanden)
+  text: "<MEIN TEXT FÜR SZENE 1: DACH LEER>"
+  choices: [{ label: "Weiter", target: "dach_hubschrauber" }]
+
+Szene 2: id "dach_hubschrauber"
+  image: "06_dach/assets/hubschrauber.png"
+  audio: "06_dach/assets/dach_voice_hubschrauber.mp3"   (falls vorhanden)
+  text: "<MEIN TEXT FÜR SZENE 2: HUBSCHRAUBER DA>"
+  choices: [{ label: "Einsteigen!", target: "dach_abflug" }]
+
+Szene 3: id "dach_abflug"
+  video: "06_dach/assets/dach_ende.mp4"   (neues Feld — siehe unten)
+  audio: "06_dach/assets/dach_voice_abflug.mp3"   (optional, siehe Ton-Konflikt)
+  text: "<MEIN TEXT FÜR SZENE 3: HUBSCHRAUBER FLIEGT WEG>"
+  choices: [{ label: "Nochmal spielen", target: "start" }]
+
+In game/engine.js (renderSceneImage und renderSceneAudio):
+- Erweitere die Render-Logik so, dass eine Szene optional ein "video"-Feld haben kann.
+- Wenn scene.video gesetzt ist: zeige statt des <img id="scene-image"> ein <video>-Element
+  mit autoplay, playsinline und ohne controls. Passe die Größe an (gleicher Container).
+- Ist scene.video nicht gesetzt: zeige weiterhin das Bild.
+- Beim Szenen-Wechsel: das Video sauber stoppen und wegräumen.
+
+Wenn Video und Voice-Over gleichzeitig laufen, stelle video.muted = true,
+damit das Voice-Over hörbar bleibt. Falls es kein Voice-Over für Szene 3 gibt,
+lass den Video-Ton an.
 ```
