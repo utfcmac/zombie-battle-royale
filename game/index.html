@@ -23,7 +23,12 @@
             <div id="combat-area" class="hidden"></div>
         </div>
         <div id="scene-content">
-            <div id="scene-text"></div>
+            <div id="scene-text-wrap">
+                <button id="scene-audio-btn" class="hidden" title="Sprecher-Intro abspielen / stoppen" aria-label="Sprecher-Intro abspielen">
+                    <span class="speaker-icon">🔊</span>
+                </button>
+                <div id="scene-text"></div>
+            </div>
             <div id="scene-choices"></div>
         </div>
     </main>
@@ -43,11 +48,8 @@
 <!-- Load-Reihenfolge: Items + Minispiele definieren globale Funktionen, die
      scenes.js in onSelect-Callbacks referenziert. engine.js ruft am Ende init(). -->
 <script src="items.js"></script>
-<script src="minigames/basketball.js"></script>
-<script src="minigames/wuerfel.js"></script>
-<script src="minigames/labyrinth.js"></script>
-<script src="minigames/bombe.js"></script>
-<script src="minigames/stealth.js"></script>
+<script src="03_klassenraum/labyrinth.js"></script>
+<script src="05_basketballplatz/basketball.js"></script>
 <script src="scenes.js"></script>
 <script src="engine.js"></script>
 </body>

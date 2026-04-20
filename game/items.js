@@ -9,6 +9,13 @@ const ITEMS = {
         passive: true,
         description: "+3 Bonus im Würfelkampf."
     },
+    seil: {
+        id: "seil",
+        name: "Kletterseil",
+        icon: "🪢",
+        passive: true,
+        description: "Zum Klettern auf das Basketballplatzdach."
+    },
     verbandskasten: {
         id: "verbandskasten",
         name: "Verbandskasten",

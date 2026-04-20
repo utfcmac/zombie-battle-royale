@@ -16,6 +16,7 @@ const gameState = {
 };
 
 let sceneTimerInterval = null;
+let currentSceneAudio = null;
 
 function init() {
     loadGame();
@@ -86,6 +87,7 @@ function showScene(id) {
 
     renderSceneImage(scene.image);
     document.getElementById("scene-text").textContent = scene.text;
+    renderSceneAudio(scene);
     renderChoices(scene.choices || []);
 
     renderHUD();
@@ -103,6 +105,68 @@ function renderSceneImage(src) {
     img.onerror = () => img.classList.remove("loaded");
     img.classList.remove("loaded");
     img.src = src;
+}
+
+function renderSceneAudio(scene) {
+    const btn = document.getElementById("scene-audio-btn");
+    if (currentSceneAudio) {
+        currentSceneAudio.pause();
+        currentSceneAudio = null;
+    }
+    if (!scene.audio) {
+        btn.classList.add("hidden");
+        btn.classList.remove("playing");
+        btn.onclick = null;
+        return;
+    }
+    btn.classList.remove("hidden", "playing");
+    const audio = new Audio(scene.audio);
+    currentSceneAudio = audio;
+    const stopGlow = () => btn.classList.remove("playing");
+    audio.addEventListener("play", () => btn.classList.add("playing"));
+    audio.addEventListener("pause", stopGlow);
+    audio.addEventListener("ended", stopGlow);
+    audio.addEventListener("timeupdate", () => {
+        if (audio.duration && audio.currentTime >= audio.duration - 0.05) stopGlow();
+    });
+    btn.onclick = () => {
+        if (audio.paused) {
+            audio.play().catch(() => {});
+        } else {
+            audio.pause();
+            audio.currentTime = 0;
+        }
+        markScenePlayed(scene.id);
+    };
+    if (!gameState.scenesAudioPlayed) gameState.scenesAudioPlayed = [];
+    if (!gameState.scenesAudioPlayed.includes(scene.id)) {
+        audio.play()
+            .then(() => markScenePlayed(scene.id))
+            .catch(() => waitForInteractionThenPlay(audio, scene.id));
+    }
+}
+
+function waitForInteractionThenPlay(audio, sceneId) {
+    const tryPlay = () => {
+        if (currentSceneAudio !== audio) return cleanup();
+        audio.play()
+            .then(() => { markScenePlayed(sceneId); cleanup(); })
+            .catch(() => { /* noch kein Gesture, weiter warten */ });
+    };
+    const cleanup = () => {
+        document.removeEventListener("pointerdown", tryPlay);
+        document.removeEventListener("keydown", tryPlay);
+    };
+    document.addEventListener("pointerdown", tryPlay);
+    document.addEventListener("keydown", tryPlay);
+}
+
+function markScenePlayed(sceneId) {
+    if (!gameState.scenesAudioPlayed) gameState.scenesAudioPlayed = [];
+    if (!gameState.scenesAudioPlayed.includes(sceneId)) {
+        gameState.scenesAudioPlayed.push(sceneId);
+        saveGame();
+    }
 }
 
 function renderChoices(choices) {

@@ -83,113 +83,96 @@ Die Story nutzt nur Maus + Zahlentasten. Jedes Minispiel bringt seine eigene Tas
 
 ## 4. Detaillierte Szenen & Interaktionen
 
-**Scope Tag 1 (solide fertig):** 3 Orte + 2 Enden + 2 Kampftypen
-**Erweiterung Tag 2+ (wenn Zeit bleibt):** weitere 2 Orte, 1–2 Enden, mehr Kampftypen
+**Scope:** 6 Stationen als linearer Flucht-Pfad, pro Station ein eigenes Minispiel. Basketball-Ausweichen ist fertig; die anderen sind Stubs / Platzhalter mit Auto-Sieg, damit der Ablauf klickbar bleibt.
 
-### Haupt-Orte (Szenen)
+### Haupt-Orte (Szenen, in Spielreihenfolge)
 
-**Tag 1 (Kernversion):**
-
-1. Pausenhof (Start)
-2. Basketballplatz
-3. Dach (Finale)
-
-**Tag 2+ (Erweiterung):**
-
-4. Klassenraum-Flur (Labyrinth)
-5. Chemieraum
-6. Bibliothek
+1. **Schulhof** (Start) — Baseballschläger-Pickup, Weg zur Mensa
+2. **Mensa** — Minispiel: Teller werfen auf Zombies, die von oben nach unten laufen
+3. **Klassenraum** — Minispiel: Labyrinth-Flucht (Top-down zwischen Tischen)
+4. **Turnhalle** — Minispiel: An Seilen hochklettern, Gegenständen ausweichen
+5. **Basketballplatz** — Minispiel: Ausweichen vor dem Zombie-Sportlehrer
+6. **Dach** (Finale) — Endszene Hubschrauber
 
 ### Beispiel-Szenen mit allen Interaktionen
 
-#### Szene 1 – Pausenhof
+#### Szene 1 – Schulhof (Start)
 
-**Text:** „Du stehst im Pausenhof. Überall stolpern Zombies herum. Dein Baseballschläger liegt bereit."
-
-Mögliche Buttons:
-
-- Rüber zum Basketballplatz
-- Durch den Klassenraum-Flur schleichen (Tag 2+)
-- Zum Chemieraum (Tag 2+)
-- In die Bibliothek schleichen (Tag 2+)
-- (später: „Hubschrauber rufen" – nur mit Item „Funkgerät")
-
-#### Szene 2 – Basketballplatz
-
-**Text:** „Der riesige Zombie-Sportlehrer pfeift und wirft Basketbälle nach dir!"
-
-→ **Kampf-Typ:** Basketball-Ausweichen (Minispiel, siehe Kapitel 5)
+**Text:** „Du stehst auf dem Schulhof. Überall stolpern Zombies herum. Dein Baseballschläger liegt im Gebüsch."
 
 Buttons:
 
-- Mit Baseballschläger zuschlagen (braucht Item, +3 Bonus)
-- Basketball als Waffe nutzen (wenn du ihn vorher gefunden hast)
-- Weglaufen (1 Herz verloren, weiter zum Chemieraum)
+- Rüber zur Mensa
 
-#### Szene 3 – Klassenraum-Flur (Tag 2+)
+#### Szene 2 – Mensa
 
-**Text:** „Ein langer Flur mit offenen Klassenzimmern. Zombies schlurfen zwischen den Tischen. Am anderen Ende: die Tür zum Chemietrakt."
+**Text:** „Die Mensa — früher Pommes und Pizza, jetzt taumeln Zombies von der Ausgabe nach unten. Zum Glück liegt hier ein Stapel Plastikteller."
+
+→ **Kampf-Typ:** Teller werfen (Top-down-Shooter)
+
+Buttons:
+
+- Teller schmeißen (Minispiel starten)
+- Zurück zum Schulhof
+
+#### Szene 3 – Klassenraum
+
+**Text:** „Stuhlreihen, umgestoßene Tische, Rucksäcke auf dem Boden. Zwischen den Tischen schleichen Zombies."
 
 → **Kampf-Typ:** Labyrinth-Flucht
 
 Buttons:
 
-- Hineinwagen (Labyrinth starten)
-- Zurück zum Pausenhof (kein Fortschritt)
+- Rein ins Labyrinth
+- Zurück zur Mensa
 
-#### Szene 4 – Chemieraum (Tag 2+)
+#### Szene 4 – Turnhalle
 
-**Text:** „Hier liegt alles rum! Du kannst eine Mega-Explosion mischen!"
+**Text:** „Seile hängen von der Decke, Matten und Medizinbälle liegen kreuz und quer. Von oben winkt die Dachluke."
 
-→ **Kampf-Typ:** Bomben-Timing
-
-Buttons:
-
-- Chemie-Bombe brauen (Item erhalten)
-- Schnell wieder raus (kein Item, aber -1 Sekunde Timer)
-
-#### Szene 5 – Bibliothek (Tag 2+)
-
-**Text:** „Hier ist es ruhig… fast zu ruhig. Das Buch der Überlebenden leuchtet!"
-
-→ **Kampf-Typ:** Stealth
+→ **Kampf-Typ:** Seilklettern + Ausweichen
 
 Buttons:
 
-- Buch mitnehmen (starkes Item für Finale)
-- Verstecken und warten (Timer pausiert, 1 Herz regeneriert)
+- Ans Seil und hoch
+- Zurück zum Klassenraum
+
+#### Szene 5 – Basketballplatz
+
+**Text:** „Der riesige Zombie-Sportlehrer pfeift und wirft Basketbälle nach dir!"
+
+→ **Kampf-Typ:** Basketball-Ausweichen *(fertig implementiert)*
+
+Buttons:
+
+- Los geht's — reingehen
+- Zurück zur Turnhalle
 
 #### Szene 6 – Dach (Finale)
 
-**Text:** „Der Hubschrauber kommt! Aber der Direktor-Zombie blockiert den Weg!"
+**Text:** „In der Ferne das Rattern eines Hubschraubers — er kommt näher und lässt ein Seil runter."
 
-→ **Kampf-Typ:** Boss-Fight (Kombi aus mehreren Typen)
+→ **Endszene:** Hubschrauber (kein weiteres Minispiel, kinematische Outro-Sequenz)
 
-Je nach Zustand:
+Buttons:
 
-- **Mit allen Items + 2+ Herzen** → Epic Win
-- **Ohne Items oder 0 Herzen übrig** → Drama-Ende
-- **Mit Buch + Bombe** → lustiges „Zombies werden zu Konfetti"-Ende
-- **Zombie-Counter = 0** → geheimes Held-Ende
+- Spiel neu starten
 
 ### Inventar-System
 
 **Start-Item:** Baseballschläger (+3 Angriffsbonus)
 
-**Sammelbare Items:**
+**Sammelbare Items (optional, an Minispiel-Siege koppelbar):**
 
-- Chemie-Bombe (Chemieraum) → besiegt ganze Zombie-Welle
-- Basketball (Basketballplatz) → +0,5s im Reaktionskampf, Ablenkung im Labyrinth
-- Buch der Überlebenden (Bibliothek) → zeigt Zombie-Routen im Labyrinth kurz an
-- Funkgerät (verstecktes Item) → ruft Hubschrauber früher
+- Teller-Stapel (Mensa) → Zusatzwürfe im Teller-Minispiel oder Ablenkung im Labyrinth
+- Basketball (Basketballplatz) → Zusatzleben im Basketball-Minispiel, Ablenkung im Labyrinth
+- Seil (Turnhalle) → kürzt den Seil-Climb beim Wiederholen ab
 - Verbandskasten (Zufallsdrop) → heilt 1 Herz
 
 ### Enden
 
-- **Epic Win** → Dach + alle Items → Hubschrauber rettet dich
-- **Funny Fail** → 0 Herzen → du wirst zum „Zombielehrer" und unterrichtest Mathe
-- **Hero-Ende** (Tag 2+) → du rettest noch einen Freund und fliegt zusammen weg
-- **Secret Ending** (Tag 2+) → Zombie-Counter auf 0 → du bist der Held, der die Schule rettet
+- **Epic Win** → Dach erreicht → Hubschrauber rettet dich
+- **Funny Fail** → 0 Herzen unterwegs → Game Over, Neustart
 
 ## 5. Kampfsystem – Minispiele pro Ort
 
@@ -197,19 +180,20 @@ Jeder Kampfort ist ein **eigenes kleines Arcade-Spiel** mit Bewegung, Steuerung 
 
 Jedes Minispiel liegt als eigene Datei unter [game/minigames/](../game/minigames/) und folgt demselben Muster (siehe Kapitel 6). **Basketball-Ausweichen** ist die Referenzimplementierung — die anderen sind aktuell TODO-Stubs mit Auto-Sieg zum Testen.
 
-### 5.1 ⚔️ Würfelkampf (Standard)
+### 5.1 🍽️ Teller werfen (Mensa)
 
-**Gegen:** normale Zombie-Schüler, Horde im Flur
-**Mechanik:** Klassischer D20-Wurf. Du klickst „Angreifen", `Math.random() * 20` wird gewürfelt. Plus Item-Bonus. Ab Wert 12+ triffst du, darunter verlierst du ein Herz.
+**Gegen:** Zombies, die in der Mensa von der Essensausgabe oben nach unten in den Essbereich taumeln
+**Mechanik:** Top-down-Shooter. Alex steht am unteren Rand, bewegt sich mit **A / D** seitlich, wirft mit **Space** Plastikteller nach oben. Zombies spawnen oben, laufen auf festen Bahnen langsam nach unten. Erreicht ein Zombie den unteren Rand → -1 ❤️. Alle Wellen überstehen → Sieg.
 
-**Beispiel:**
+**Schwierigkeits-Wellen:**
 
-```
-Wurf: 8 + Baseballschläger (+3) = 11 → knapp daneben! -1 ❤️
-Wurf: 14 + Baseballschläger (+3) = 17 → Treffer! Zombie besiegt.
-```
+1. Einzelne Zombies, gerade Bahnen
+2. Gruppen, leicht versetzt
+3. Zickzack-Bewegung, höhere Frequenz
 
-**Lerneffekt:** Wahrscheinlichkeit, Zufallszahlen, Bonus-Addition.
+**Status:** TODO (Scene-Placeholder mit Auto-Sieg)
+
+**Lerneffekt:** Spawn-Logik, Projektil-Kollision, Wellen-Difficulty.
 
 ### 5.2 🏀 Basketball-Ausweichen *(Referenzspiel — fertig implementiert)*
 
@@ -265,43 +249,34 @@ Wurf: 14 + Baseballschläger (+3) = 17 → Treffer! Zombie besiegt.
 └─────────────────┘
 ```
 
-### 5.4 💣 Bomben-Timing
+### 5.4 🪢 Seilklettern (Turnhalle)
 
-**Gegen:** Chemie-Zombies (ganze Gruppe)
-**Mechanik:** Ein Fortschrittsbalken füllt sich schnell. Du musst im **grünen Bereich** (20 % des Balkens) klicken, um die Chemie-Bombe zu zünden. Treffer → alle Zombies im Raum weg. Daneben → Bombe geht nach hinten los, -1 Herz.
+**Gegen:** herabfallende Medizinbälle, Sportgeräte, Seile anderer Zombies, die mitklettern
+**Mechanik:** Vertikaler Climber. Alex hängt am Seil, klettert mit **W** nach oben, weicht mit **A / D** auf Nachbar-Seile aus. Gegenstände fliegen von oben nach unten, Seile werden zeitweise von Zombies blockiert. Oben an der Dachluke → Sieg. Treffer → -1 ❤️, zu oft getroffen → zurück in die Turnhalle.
 
-**Variation:** Ohne Item „Chemie-Bombe" nicht möglich – dann nur wegrennen.
+**Status:** TODO (Scene-Placeholder mit Auto-Sieg)
 
-**Lerneffekt:** Timing, Animationen mit `requestAnimationFrame` oder CSS-Transition.
+**Lerneffekt:** Vertikales Scrolling, Hindernis-Patterns, Spur-Wechsel-Logik.
 
-### 5.5 🕵️ Stealth-Kampf (Tag 2+)
+### 5.5 🚁 Endszene Hubschrauber (Dach)
 
-**Gegen:** schlafende Zombies in der Bibliothek
-**Mechanik:** Du klickst eine Reihenfolge von Aktionen: „Ducken" → „Leise gehen" → „Tür öffnen". Jeder falsche Klick weckt einen Zombie auf (+1 zum Zombie-Counter). Erfolgreich → du sneakst durch ohne Kampf.
+**Gegen:** keine — reine kinematische Outro-Sequenz
+**Mechanik:** Hubschrauber fliegt ins Bild, lässt ein Seil runter, Alex greift zu, Kamera zieht raus, Credits / „Spiel neu starten"-Button. Kein Input, keine Kollision.
 
-**Lerneffekt:** Zustandsmaschinen, Sequenz-Logik.
+**Status:** TODO (Scene-Placeholder nutzt vorübergehend `basketballplatz_kampf.png` als Hintergrund, bis ein Dach-Asset existiert)
 
-### 5.6 👑 Boss-Fight (Finale)
-
-**Gegen:** Direktor-Zombie auf dem Dach
-**Mechanik:** 3-Phasen-Kampf, jede Phase ein anderer Kampf-Typ:
-
-1. **Phase 1** – Ausweichen (Direktor wirft Akten, wie Basketball-Minispiel)
-2. **Phase 2** – Mini-Labyrinth (Direktors Handlanger blockieren den Weg zum Hubschrauber)
-3. **Phase 3** – Würfelkampf mit allen gesammelten Item-Boni
-
-**Belohnung:** Epic-Win-Ende + Highscore-Eintrag.
+**Lerneffekt:** Scripted Sequences, CSS-Animationen, Übergang zum End-Screen.
 
 ### Kampf-Übersichtstabelle
 
-| Minispiel | Gegner | Dauer | Status | Item-Boost |
-|-----------|--------|-------|--------|------------|
-| Würfelkampf | Standard-Zombies | ~10s | TODO | Baseballschläger +3 |
-| Basketball-Ausweichen | Sportlehrer | 30s | **fertig** | Basketball = Zusatzleben |
-| Labyrinth-Flucht | Klassenraum-Zombies | 30s | TODO | Buch = Routen sichtbar, Basketball = Ablenkung |
-| Bomben-Timing | Chemie-Zombies | ~10s | TODO | Chemie-Bombe nötig |
-| Stealth | Bibliotheks-Zombies | offen | TODO | Buch = keine Weckgefahr |
-| Boss-Fight | Direktor | ~45s | TODO | alle Items kombiniert |
+| # | Station | Minispiel | Gegner | Status | Item-Boost |
+|---|---------|-----------|--------|--------|------------|
+| 1 | Schulhof | — (Story/Pickup) | — | **fertig** | Baseballschläger-Start |
+| 2 | Mensa | Teller werfen | Mensa-Zombies | TODO (Auto-Sieg) | — |
+| 3 | Klassenraum | Labyrinth-Flucht | Klassenraum-Zombies | TODO (Auto-Sieg) | Buch = Routen sichtbar, Basketball = Ablenkung |
+| 4 | Turnhalle | Seilklettern | Sport-Zombies + Medizinbälle | TODO (Auto-Sieg) | — |
+| 5 | Basketballplatz | Basketball-Ausweichen | Sportlehrer | **fertig** | Basketball = Zusatzleben |
+| 6 | Dach | Endszene Hubschrauber | — | TODO (Placeholder) | — |
 
 ## 6. Technische Hinweise für den Bau
 
@@ -333,13 +308,12 @@ game/
 ├── items.js            ← ITEMS-Registry (Item-Definitionen + Effekte)
 ├── minigames/
 │   ├── basketball.js   ← startBasketballAusweichen()  [REFERENZ, fertig]
-│   ├── wuerfel.js      ← startWuerfelKampf()          [TODO-Stub]
-│   ├── labyrinth.js    ← startLabyrinth()             [TODO-Stub]
-│   ├── bombe.js        ← startBombenTiming()          [TODO-Stub]
-│   └── stealth.js      ← startStealth()               [TODO-Stub]
+│   └── labyrinth.js    ← startLabyrinth()             [TODO-Stub]
 ├── scenes.js           ← SCENES-Graph; ruft start<Minispiel>(onWin, onLose)
 └── engine.js           ← Core: gameState, showScene, HUD, Inventar, Save/Load
 ```
+
+Platzhalter-Minispiele (Teller werfen, Seilklettern, Endszene) laufen aktuell über die Inline-Funktion `placeholderMinigame(...)` in `scenes.js` — Auto-Sieg nach kurzem Toast. Sobald ein Minispiel ausgebaut wird, wandert es in ein eigenes File unter `minigames/` und die Scene ruft stattdessen `start<Name>(onWin, onLose)`.
 
 **Muster für Minispiele** (siehe `basketball.js` als Referenz):
 
@@ -364,11 +338,11 @@ game/
 - **Mittag (Kern-Code):** HTML-Grundgerüst, Szenen-Wechsel, Inventar, `gameState`
 - **Nachmittag (Kampf-System):** Basketball-Ausweichen spielen + ein zweites Minispiel nach gleichem Muster bauen
 - **Abend (Polish):** Timer, Herzen, Zombie-Counter, Highscore in `localStorage`
-- **Bonus-Tag (Tag 2):** Klassenraum-Flur mit Labyrinth, Chemieraum, Bibliothek, Boss-Fight
+- **Bonus-Tag (Tag 2):** Teller-Minispiel, Labyrinth-Minispiel, Seilklettern, Endszene-Animation
 
 ### Reihenfolge-Tipp
 
-Wenn Zeit knapp wird, lieber **weniger Orte, dafür funktionierende Kampftypen**. Ein Spiel mit 3 Orten und 2 coolen Kämpfen ist besser als 5 Orte voller Bugs. Das Labyrinth ist der technisch anspruchsvollste Kampftyp – den Tag-2 aufsparen, außer dein Sohn hat schon Tastatur-Input gebaut.
+Wenn Zeit knapp wird, lieber **weniger Minispiele, dafür funktionierende**. Der Ablauf ist durch die Platzhalter schon komplett klickbar — jedes TODO-Minispiel kann einzeln ausgebaut werden, ohne den Rest zu brechen. Reihenfolge nach Aufwand: **Teller werfen** (ähnelt Basketball, einfachster Ausbau) → **Labyrinth** (neue Mechanik, aber Sprites liegen schon fertig) → **Seilklettern** (vertikales Scrolling, etwas kniffliger) → **Endszene** (reine Animation, wenn Asset da ist).
 
 ---
 
