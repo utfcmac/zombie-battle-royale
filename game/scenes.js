@@ -195,7 +195,6 @@ const SCENES = {
     },
 
     // ---------- Dach (Endszene: Hubschrauber) ----------
-    // TODO: eigenes Dach-Asset fehlt noch — nutzt vorübergehend basketballplatz_kampf.png.
     dach: {
         id: "dach",
         image: "06_dach/assets/dach.png",
@@ -214,7 +213,15 @@ const SCENES = {
         image: "06_dach/assets/hubschrauber.png",
         text: "In der Ferne — ein Rattern. Ein Hubschrauber! Er kommt näher. Näher. Wirbelt deine Haare. Ein Seil fällt runter.\n\n🎉 Du greifst zu.",
         choices: [
-            { label: "Nochmal spielen", target: "start" }
+            { label: "Einsteigen!", target: "dach_abflug" }
+        ]
+    },
+    dach_abflug: {
+        id: "dach_abflug",
+        video: "06_dach/assets/dach_ende.mp4",
+        text: "Du bist drin. Die Tür fällt ins Schloss.\n\nUnter dir schrumpft die Schule. Die Zombies — winzig.\n\nDu hast überlebt. Diesmal.",
+        choices: [
+            { label: "🔄 Nochmal spielen", target: "start" }
         ]
     }
 };

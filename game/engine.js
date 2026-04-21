@@ -17,6 +17,7 @@ const gameState = {
 
 let sceneTimerInterval = null;
 let currentSceneAudio = null;
+let currentSceneVideo = null;
 
 function init() {
     loadGame();
@@ -87,15 +88,43 @@ function showScene(id) {
     gameState.currentSceneId = id;
 
     document.getElementById("start-overlay").classList.add("hidden");
+    stopSceneVideo();
     if (scene.onEnter) scene.onEnter();
 
-    renderSceneImage(scene.image);
+    renderSceneMedia(scene);
     document.getElementById("scene-text").textContent = scene.text;
     renderSceneAudio(scene);
     renderChoices(scene.choices || []);
 
     renderHUD();
     saveGame();
+}
+
+function stopSceneVideo() {
+    if (currentSceneVideo) {
+        currentSceneVideo.pause();
+        currentSceneVideo.remove();
+        currentSceneVideo = null;
+    }
+}
+
+function renderSceneMedia(scene) {
+    if (scene.video) {
+        const img = document.getElementById("scene-image");
+        img.classList.remove("loaded");
+        img.removeAttribute("src");
+        const video = document.createElement("video");
+        video.src = scene.video;
+        video.autoplay = true;
+        video.playsInline = true;
+        video.loop = true;
+        video.muted = !!scene.audio;
+        video.style.cssText = "position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;";
+        document.getElementById("scene-image-wrap").appendChild(video);
+        currentSceneVideo = video;
+    } else {
+        renderSceneImage(scene.image);
+    }
 }
 
 function renderSceneImage(src) {
