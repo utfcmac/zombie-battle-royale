@@ -173,49 +173,94 @@ Schau dir game/05_basketballplatz/basketball.js als Muster an.
 
 > 📋 **Stil-Vorlage:** Die Stil-Zeilen in jedem Prompt stammen aus `docs/00_stil-vorlage.md` — nie weglassen, damit alle Bilder zusammenpassen.
 
-## 4.4 🎨 Weitere Bilder mit Gemini generieren
+## 4.4 🎨 Siegesbild mit Gemini generieren
 
-**Hintergrund `turnhalle_kampf.png`** (für das Minispiel — nur wenn du ein besseres Bild willst):
+> 📸 **Referenzfoto:** [`docs/04_turnhalle/turnhalle2.jpg`](turnhalle2.jpg) — die Sporthalle aus der erhöhten Galerieansicht schräg nach unten: Holz-Rippendecke, Sportboden mit Linien, Tribünen, Anzeigetafel, runde Fenster an der Stirnwand. **Lade es mit in Gemini hoch.**
+
+> 📋 **Stil-Vorlage:** aus `docs/00_stil-vorlage.md` — immer ans Ende des Prompts, nie weglassen.
+
 ```
-Inside a school gymnasium seen from a slightly elevated side angle.
-Six thick climbing ropes hanging from the ceiling rafters on the left side of the hall,
-visible as vertical lines from top to bottom of the image.
-High above where the ropes are attached, a jagged hole has been broken through the roof —
-sickly daylight visible through the opening.
-Gymnastics mats, medicine balls and benches scattered on the floor.
-A few zombies have entered through the gym door (bottom of image).
+In the exact style of a LucasArts adventure game background:
+
+Interior of a school gymnasium during a zombie apocalypse — based exactly
+on the attached reference photo. Match the architecture:
+- Wide sports hall seen from an elevated gallery angle looking down and across
+- Distinctive wooden slatted ceiling with T-shaped steel support beams
+- Round windows and electronic scoreboard on the far wall
+- Bleacher benches along the sides
+- Sports court with painted floor markings
+
+View from just above the jagged hole that has been broken through the roof:
+the ragged edges of the hole frame the top of the image, and through it we
+look down steeply into the gymnasium below.
+Six thick climbing ropes hang from the ceiling rafters directly below the hole.
+Several zombies are on the ropes — mid-climb, reaching upward toward the viewer,
+grotesque faces tilted up, grasping hands extended. One or two more zombies
+stand on the gym floor below, waiting their turn.
 
 STYLE: Stylized painterly cartoon illustration, slightly brushy textures, high contrast,
 clear silhouettes, dark but vibrant palette — dominated by mossy greens, moody greys,
 warm amber accents. Inspired by LucasArts adventure game backgrounds, Tim Burton,
 Goosebumps book covers, Hotel Transylvania. Spooky but kid-friendly (age 10–14).
 
-ATMOSPHERE: Overcast light through high gym windows with sickly yellow-green tint.
-Low ground fog drifting across the gym floor. Long diagonal shadows from the ropes.
-Dust motes in the air. Cold, eerie silence implied by the emptiness.
+ATMOSPHERE: Sickly yellow-green daylight pours through the jagged roof hole from above,
+casting a harsh cone of light down onto the ropes and climbing zombies. Long diagonal
+shadows from the beams. Low ground fog across the gym floor below. Dust and plaster
+debris falling from the broken roof edge. The sense of immediate, closing danger.
 
-TECHNICAL: 16:9 aspect ratio, 1280x720 resolution, sharp focus on foreground,
-slight atmospheric depth-of-field on background.
+TECHNICAL: 16:9 aspect ratio, 1280x720 resolution, steep top-down angle looking through
+the hole into the hall below, sharp focus on the ropes and climbing zombies, slight
+atmospheric depth-of-field on the gym floor in the background.
 No text, no speech bubbles, no UI overlays, no watermarks. No gore.
 ```
-Speichere als `game/04_turnhalle/assets/turnhalle_kampf.png`.
 
-**Alex-Kletterpose `ove_klettern.png`** (optional, ersetzt ove_turnhalle.png im Minispiel):
+<details>
+<summary>📖 Deutsche Übersetzung zum Verstehen (nicht in Gemini eingeben!)</summary>
+
 ```
-Single teenage boy seen from behind, climbing a rope, arms raised above head gripping rope,
-slightly hunched, determined — seen from behind looking upward.
-Black hair, black hoodie, blue jeans, black shoes.
+Im exakten Stil eines LucasArts-Adventure-Hintergrundbilds:
 
-STYLE: Stylized painterly cartoon illustration, slightly brushy textures, high contrast,
-clear silhouettes, dark but vibrant palette — dominated by mossy greens, moody greys,
-warm amber accents. Inspired by LucasArts adventure game backgrounds, Tim Burton,
-Goosebumps book covers, Hotel Transylvania. Spooky but kid-friendly (age 10–14).
+Innenraum einer Schulsporthalle während einer Zombie-Apokalypse — genau nach
+dem beigefügten Referenzfoto. Architektur übernehmen:
+- Breite Sporthalle aus erhöhter Galerieansicht, schräg nach unten blickend
+- Markante Holz-Rippendecke mit T-förmigen Stahlträgern
+- Runde Fenster und elektronische Anzeigetafel an der Stirnwand
+- Tribünenbänke an den Seiten
+- Sportboden mit aufgemalten Linien
 
-TECHNICAL: Transparent background, PNG with alpha channel, object centered on canvas,
-no drop shadow, no cast ground shadow, no floor, no background elements.
-No text, no watermarks. No gore.
+Blick von knapp oberhalb des zackigen Lochs, das durch das Dach gebrochen wurde:
+Die ausgefransten Ränder des Lochs rahmen den oberen Bildrand, und durch das Loch
+schauen wir steil nach unten in die Sporthalle.
+Sechs dicke Kletterseile hängen von den Deckenträgern direkt unterhalb des Lochs.
+Mehrere Zombies sind bereits auf den Seilen — mitten im Klettern, greifen nach oben
+in Richtung Betrachter, groteske Gesichter nach oben gewandt, ausgestreckte Hände.
+Ein oder zwei weitere Zombies stehen auf dem Hallenboden darunter und warten.
+
+STIL: Stilisierte malerische Cartoon-Illustration, leicht pinselige Texturen, hoher
+Kontrast, klare Silhouetten, dunkle aber kräftige Palette — dominiert von moosigen
+Grüntönen, düsteren Grautönen, warmen Bernstein-Akzenten.
+
+ATMOSPHÄRE: Krankhaft gelbgrünes Tageslicht fällt durch das zackige Dachloch von oben
+herein und wirft einen harten Lichtkegel auf die Seile und kletternden Zombies. Lange
+diagonale Schatten von den Trägern. Bodennaher Nebel auf dem Hallenboden unten. Staub
+und Putzreste rieseln von den Dachkanten. Das Gefühl unmittelbarer, nahender Gefahr.
+
+TECHNISCH: 16:9-Seitenverhältnis, 1280x720 Auflösung, steile Aufsicht durch das Loch
+in die Halle darunter, scharfer Fokus auf Seile und kletternde Zombies, leichte
+atmosphärische Tiefenunschärfe auf dem Hallenboden im Hintergrund.
+Kein Text, keine Sprechblasen, keine UI-Overlays, keine Wasserzeichen.
+Keine Gewaltdarstellung.
 ```
-Speichere als `game/04_turnhalle/assets/ove_klettern.png`.
+
+</details>
+
+Speichere als `game/04_turnhalle/assets/turnhalle_sieg.png`.
+
+Dann lass Claude Code das Bild einbauen:
+```
+In game/scenes.js bei der Szene "turnhalle_sieg":
+Setze das image-Feld auf "04_turnhalle/assets/turnhalle_sieg.png".
+```
 
 ---
 
@@ -224,9 +269,9 @@ Speichere als `game/04_turnhalle/assets/ove_klettern.png`.
 Wieder **Model = v3** und Stimme **„Commander Brake – Strict & Dominant"**:
 
 ```
-[sighs] [breathing heavily] Oben. Aber das Dach endet im Nichts.
-[pause] [whispering] Wenigstens hast du ein Seil mitgenommen.
-[pause] [determined] Zum Basketballplatz. Letzte Chance.
+[sighs] [breathing heavily] Oben. Geschafft.
+[pause] [panicked] Warte — sie klettern nach! Die Seile!
+[pause] [determined] Weg vom Dach. Zum Basketballplatz — letzte Chance.
 ```
 
 Speichere als `game/04_turnhalle/assets/turnhalle_voice_sieg.mp3`.
