@@ -1,10 +1,134 @@
 # Station 04 – Turnhalle (Minispiel: Seilklettern)
 
-**Deine Aufgabe:** Das Seilklettern-Minispiel bauen — und die Turnhalle mit einem eigenen Bild und Ton zum Leben erwecken.
+**Deine Aufgabe:** Die Turnhalle mit eigenem Startbild und Ton zum Leben erwecken — und dann das Seilklettern-Minispiel bauen.
 
 ---
 
-## 🤖 Minispiel bauen mit Claude Code
+## 4.1 🎨 Startbild mit Gemini generieren
+
+> 📸 **Referenzfoto:** [`docs/04_turnhalle/turnhalle1.jpg`](turnhalle1.jpg) — die echte Schulsporthalle von der erhöhten Galerie aus: Holz-Rippendecke mit T-förmigen Stahlträgern, Sportbodenmarkierungen, Tribünen an den Seiten, Anzeigetafel, hohe Fensterreihen. **Lade es mit in Gemini hoch**, damit der Schauplatz wiedererkennbar bleibt.
+
+> 📋 **Stil-Vorlage:** aus `docs/00_stil-vorlage.md` — immer ans Ende des Prompts, nie weglassen.
+
+```
+In the exact style of a LucasArts adventure game background:
+
+Interior of a school gymnasium during a zombie apocalypse — based exactly
+on the attached reference photo. Match the architecture:
+- Wide sports hall seen from an elevated gallery angle looking down and across
+- Distinctive wooden slatted ceiling with T-shaped steel support beams running
+  across the full width
+- Long rows of high windows along both side walls
+- Bleacher benches along the sides
+- Sports court with painted floor markings (basketball, handball lines)
+- Electronic scoreboard visible on the far wall
+- A green emergency exit door at the far end
+
+Six thick climbing ropes hang in a row from the ceiling rafters at the far
+end of the hall — the key detail. High above where the ropes are attached,
+a jagged hole has been broken through the roof — sickly daylight and overcast
+sky visible through the opening.
+Gymnastics mats and medicine balls lie scattered on the floor.
+A teenage boy is sprinting toward the ropes: black hair, black hoodie, black
+backpack, blue jeans, black shoes — desperate and determined. Several zombies
+are chasing him from behind, uncomfortably close.
+
+STYLE: Stylized painterly cartoon illustration, slightly brushy textures, high contrast,
+clear silhouettes, dark but vibrant palette — dominated by mossy greens, moody greys,
+warm amber accents. Inspired by LucasArts adventure game backgrounds, Tim Burton,
+Goosebumps book covers, Hotel Transylvania. Spooky but kid-friendly (age 10–14).
+
+ATMOSPHERE: Sickly yellow-green light filtering through the high windows. Low ground
+fog drifting across the gym floor. Long diagonal shadows from the ceiling beams and
+ropes. Dust motes swirling in cold shafts of light. An eerie hush — the squeak of
+sneakers and distant shuffling echoing from below.
+
+TECHNICAL: 16:9 aspect ratio, 1280x720 resolution, elevated gallery angle looking
+down and across the hall, sharp focus on the ropes and floor, slight atmospheric
+depth-of-field on the far wall.
+No text, no speech bubbles, no UI overlays, no watermarks. No gore.
+```
+
+<details>
+<summary>📖 Deutsche Übersetzung zum Verstehen (nicht in Gemini eingeben!)</summary>
+
+```
+Im exakten Stil eines LucasArts-Adventure-Hintergrundbilds:
+
+Innenraum einer Schulsporthalle während einer Zombie-Apokalypse — genau nach
+dem beigefügten Referenzfoto. Architektur übernehmen:
+- Breite Sporthalle aus erhöhter Galerieansicht, schräg nach unten blickend
+- Markante Holz-Rippendecke mit T-förmigen Stahlträgern quer über die
+  gesamte Breite
+- Lange Reihen hoher Fenster an beiden Seitenwänden
+- Tribünenbänke an den Seiten
+- Sportboden mit aufgemalten Linien (Basketball, Handball)
+- Elektronische Anzeigetafel an der Stirnwand
+- Grüne Notausgangstür am hinteren Ende
+
+Sechs dicke Kletterseile hängen in einer Reihe von den Deckenträgern am
+hinteren Ende der Halle — das entscheidende Detail. Hoch oben, wo die Seile
+befestigt sind, ist ein zackiges Loch durch das Dach gebrochen — krankhaftes
+Tageslicht und bedeckter Himmel scheinen hindurch.
+Turnmatten und Medizinbälle liegen auf dem Boden verstreut.
+Ein Teenager sprintet auf die Seile zu: schwarze Haare, schwarzer Hoodie,
+schwarzer Rucksack, blaue Jeans, schwarze Schuhe — verzweifelt und entschlossen.
+Mehrere Zombies verfolgen ihn von hinten, bedrohlich nah.
+
+STIL: Stilisierte malerische Cartoon-Illustration, leicht pinselige Texturen,
+hoher Kontrast, klare Silhouetten, dunkle aber kräftige Palette — dominiert
+von moosigen Grüntönen, düsteren Grautönen, warmen Bernstein-Akzenten.
+
+ATMOSPHÄRE: Krankhaft gelbgrünes Licht durch die hohen Fenster. Bodennaher
+Nebel über dem Hallenboden. Lange diagonale Schatten von Trägern und Seilen.
+Staubpartikel wirbeln in kalten Lichtstrahlen. Gespenstische Stille — nur das
+Quietschen von Turnschuhen und entferntes Schlurfen von unten.
+
+TECHNISCH: 16:9-Seitenverhältnis, 1280x720 Auflösung, erhöhte Galerieansicht
+schräg nach unten, scharfer Fokus auf Seile und Boden, leichte atmosphärische
+Tiefenunschärfe zur Stirnwand hin.
+Kein Text, keine Sprechblasen, keine UI-Overlays, keine Wasserzeichen.
+Keine Gewaltdarstellung.
+```
+
+</details>
+
+Speichere als `game/04_turnhalle/assets/turnhalle_intro.png`.
+
+Falls das Bild noch nicht im Spiel angezeigt wird, lass Claude Code das übernehmen:
+```
+In game/scenes.js bei der Szene "turnhalle_intro":
+Setze das image-Feld auf "04_turnhalle/assets/turnhalle_intro.png".
+```
+
+---
+
+## 4.2 🎙️ Startbildschirm-Sound mit ElevenLabs
+
+ElevenLabs **v3** versteht **Audio-Tags** in eckigen Klammern direkt im Text — sie steuern, wie die Stimme klingt (z. B. flüsternd, schreiend, keuchend).
+
+Geh auf [elevenlabs.io](https://elevenlabs.io), stelle **Model = v3** ein, wähle die Stimme **„Commander Brake – Strict & Dominant"** und kopier diesen Text 1:1 rein:
+
+```
+[breathing heavily] Die Turnhalle.
+[pause] [whispering] Kletterseile — hängen von der Decke.
+[pause] [determined] Das ist dein Weg nach oben.
+[pause] [tense] Aber die Zombies haben dich schon entdeckt.
+```
+
+Speichere als `game/04_turnhalle/assets/turnhalle_voice_intro.mp3`.
+
+Dann lass Claude Code den Ton einbauen:
+```
+In game/scenes.js bei der Szene "turnhalle_intro":
+Füge ein audio-Feld hinzu mit Wert "04_turnhalle/assets/turnhalle_voice_intro.mp3".
+Die Engine spielt das Audio dann automatisch beim ersten Aufruf ab und zeigt
+einen Lautsprecher-Button neben dem Text.
+```
+
+---
+
+## 4.3 🤖 Minispiel bauen mit Claude Code
 
 Öffne Claude Code im Projektordner `zombie-battle-royale` und paste diesen Prompt:
 
@@ -35,11 +159,11 @@ Schau dir game/05_basketballplatz/basketball.js als Muster an.
 
 ---
 
-> 📋 **Stil-Vorlage:** Die fett markierten Stil-Zeilen in jedem Prompt stammen aus `docs/00_stil-vorlage.md` — nie weglassen, damit alle Bilder zusammenpassen.
+> 📋 **Stil-Vorlage:** Die Stil-Zeilen in jedem Prompt stammen aus `docs/00_stil-vorlage.md` — nie weglassen, damit alle Bilder zusammenpassen.
 
-## 🎨 Turnhallen-Bilder mit Gemini generieren
+## 4.4 🎨 Weitere Bilder mit Gemini generieren
 
-**Hintergrund `turnhalle_kampf.png`** (nur wenn du ein besseres Bild willst):
+**Hintergrund `turnhalle_kampf.png`** (für das Minispiel — nur wenn du ein besseres Bild willst):
 ```
 Inside a school gymnasium seen from a top-down bird's eye view.
 Three climbing ropes hanging from the ceiling, visible as vertical lines.
@@ -80,28 +204,20 @@ Speichere als `game/04_turnhalle/assets/ove_klettern.png`.
 
 ---
 
-## 🎙️ Szenen-Ton mit ElevenLabs
+## 4.5 🎙️ Sieg-Ton mit ElevenLabs
 
-Dateien in `game/04_turnhalle/assets/` speichern:
+Wieder **Model = v3** und Stimme **„Commander Brake – Strict & Dominant"**:
 
-**`turnhalle_voice_intro.mp3`:**
 ```
-Die Turnhalle. Kletterseile.
-Das ist dein Weg nach oben.
-```
-
-**`turnhalle_voice_sieg.mp3`:**
-```
-Oben. Aber das Dach endet im Nichts.
-Wenigstens hast du ein Seil.
-Zum Basketballplatz. Letzte Chance.
+[sighs] [breathing heavily] Oben. Aber das Dach endet im Nichts.
+[pause] [whispering] Wenigstens hast du ein Seil mitgenommen.
+[pause] [determined] Zum Basketballplatz. Letzte Chance.
 ```
 
-Dann Claude Code bitten, die Sounds einzubauen:
+Speichere als `game/04_turnhalle/assets/turnhalle_voice_sieg.mp3`.
+
+Dann lass Claude Code den Ton einbauen:
 ```
-In game/scenes.js: Spiele in turnhalle_intro.onEnter die Datei
-"04_turnhalle/assets/turnhalle_voice_intro.mp3" ab,
-und in turnhalle_sieg.onEnter die Datei
-"04_turnhalle/assets/turnhalle_voice_sieg.mp3".
-Benutze new Audio(...).play().
+In game/scenes.js bei der Szene "turnhalle_sieg":
+Füge ein audio-Feld hinzu mit Wert "04_turnhalle/assets/turnhalle_voice_sieg.mp3".
 ```
