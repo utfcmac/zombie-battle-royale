@@ -139,14 +139,26 @@ Erstelle die Datei game/04_turnhalle/seilklettern.js mit der Funktion startSeilk
 Das Minispiel läuft im Element #combat-area (1280x720px, position: relative).
 Hintergrundbild: renderSceneImage("04_turnhalle/assets/turnhalle_kampf.png") — existiert in engine.js.
 
+Wichtig zur Hintergrundgrafik: turnhalle_kampf.png zeigt die Turnhalle aus einer leicht erhöhten
+Seitenperspektive. Die 6 Kletterseile sind im Bild im linken Bereich sichtbar und hängen vertikal
+von der Decke. Positioniere die 6 Spiel-Seile so, dass sie optisch mit dem Hintergrundbild
+übereinstimmen: gleichmäßig verteilt zwischen x=80px und x=560px (je ~96px Abstand).
+
 Spielmechanik — vertikaler Kletterer:
-- Es gibt 3 vertikale Seile nebeneinander (links, mitte, rechts) als schmale braune Streifen (8px breit, volle Höhe).
-- Alex (ove_turnhalle.png aus 04_turnhalle/assets/) hängt am mittleren Seil, startet unten.
-- Mit A/← wechselt Alex auf das linke Seil, mit D/→ auf das rechte. Kein Wechsel über den Rand hinaus.
+- Es gibt 6 vertikale Seile nebeneinander als schmale braune Streifen (8px breit, volle Höhe),
+  positioniert bei x ≈ 80, 176, 272, 368, 464, 560px (Mitte des Streifens).
+- Alex (ove_turnhalle.png aus 04_turnhalle/assets/, ~60px breit) hängt am 3. Seil von links,
+  startet unten (y ≈ 580px).
+- Mit A/← wechselt Alex ein Seil nach links, mit D/→ ein Seil nach rechts.
+  Kein Wechsel über den Rand (Seil 1 und Seil 6) hinaus.
 - Alex klettert automatisch nach oben (gleichmäßig, kein Button nötig).
-- Ein Fortschrittsbalken (schmaler Streifen rechts) zeigt den Aufstieg — bei 100% = Dachluke erreicht → onWin().
-- Fallende Hindernisse (runde Divs in rot/braun = Medizinbälle) spawnen zufällig auf einem der 3 Seile und fallen nach unten. Bei Kollision mit Alex → loseHeart(1) aus engine.js, kurze Unverwundbarkeit (300ms Flackern).
-- Schwierigkeit steigt mit der Höhe: unter 33% = 1 Ball gleichzeitig, 33–66% = 2 Bälle, über 66% = 3 Bälle, alle schneller.
+- Ein Fortschrittsbalken (schmaler Streifen, rechts am Rand, z. B. x=1240px) zeigt den Aufstieg
+  von unten nach oben — bei 100% = Loch im Dach erreicht → onWin().
+- Fallende Hindernisse (runde Divs ~40px, rot/braun = Medizinbälle) spawnen zufällig auf einem
+  der 6 Seile oben und fallen nach unten. Bei Kollision mit Alex → loseHeart(1) aus engine.js,
+  kurze Unverwundbarkeit (300ms Flackern, Alex-Div opacity wechselt).
+- Schwierigkeit steigt mit der Höhe: unter 33% = 2 Bälle gleichzeitig, 33–66% = 3 Bälle,
+  über 66% = 4 Bälle, alle mit zunehmender Fallgeschwindigkeit.
 - gameState.hearts === 0 → cleanup, onLose().
 
 Danach:
@@ -165,10 +177,12 @@ Schau dir game/05_basketballplatz/basketball.js als Muster an.
 
 **Hintergrund `turnhalle_kampf.png`** (für das Minispiel — nur wenn du ein besseres Bild willst):
 ```
-Inside a school gymnasium seen from a top-down bird's eye view.
-Three climbing ropes hanging from the ceiling, visible as vertical lines.
+Inside a school gymnasium seen from a slightly elevated side angle.
+Six thick climbing ropes hanging from the ceiling rafters on the left side of the hall,
+visible as vertical lines from top to bottom of the image.
+High above where the ropes are attached, a jagged hole has been broken through the roof —
+sickly daylight visible through the opening.
 Gymnastics mats, medicine balls and benches scattered on the floor.
-A roof hatch visible at the top of the image.
 A few zombies have entered through the gym door (bottom of image).
 
 STYLE: Stylized painterly cartoon illustration, slightly brushy textures, high contrast,
@@ -188,8 +202,9 @@ Speichere als `game/04_turnhalle/assets/turnhalle_kampf.png`.
 
 **Alex-Kletterpose `ove_klettern.png`** (optional, ersetzt ove_turnhalle.png im Minispiel):
 ```
-Single teenage boy seen from the front, climbing a rope, arms raised above head gripping rope,
-slightly hunched, determined expression, black jacket and jeans, dark hair.
+Single teenage boy seen from behind, climbing a rope, arms raised above head gripping rope,
+slightly hunched, determined — seen from behind looking upward.
+Black hair, black hoodie, blue jeans, black shoes.
 
 STYLE: Stylized painterly cartoon illustration, slightly brushy textures, high contrast,
 clear silhouettes, dark but vibrant palette — dominated by mossy greens, moody greys,
