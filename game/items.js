@@ -28,8 +28,33 @@ const ITEMS = {
                 return false;
             }
             gameState.hearts++;
+            renderHUD();
             toast("+1 ❤️ geheilt!");
             return true;
         }
+    },
+    schokoriegel: {
+        id: "schokoriegel",
+        name: "Schokoriegel",
+        icon: "🍫",
+        passive: false,
+        description: "Heilt 1 Herz.",
+        use: () => {
+            if (gameState.hearts >= gameState.maxHearts) {
+                toast("Schon volle Herzen!");
+                return false;
+            }
+            gameState.hearts++;
+            renderHUD();
+            toast("+1 ❤️ geheilt!");
+            return true;
+        }
+    },
+    trillerpfeife: {
+        id: "trillerpfeife",
+        name: "Trillerpfeife",
+        icon: "📯",
+        passive: true,
+        description: "Auf dem Dach einsetzen — Hilfe rufen!"
     }
 };

@@ -140,7 +140,28 @@ Setze das image-Feld auf "05_basketballplatz/assets/basketballplatz_sieg.png".
 
 ---
 
-## 5.4 🎙️ Sieg-Ton mit ElevenLabs
+## 5.4 🎺 Trillerpfeife des Sportlehrers — Item-Belohnung einbauen
+
+Nach dem Sieg liegt die Pfeife des Zombie-Sportlehrers auf dem Boden. Alex nimmt sie mit — sie wird später auf dem Dach gebraucht, um den Hubschrauber herbeizurufen.
+
+Das Item ist bereits im Spiel definiert. Lass Claude Code es verteilen:
+
+```
+In game/scenes.js bei der Szene "basketballplatz_sieg":
+Füge in onEnter folgendes ein (falls noch nicht vorhanden):
+  if (!hasItem("trillerpfeife")) {
+      addItem(ITEMS.trillerpfeife);
+      toast("📯 Trillerpfeife des Sportlehrers eingesteckt!");
+  }
+
+Die Trillerpfeife ist bereits in game/items.js definiert.
+Sie erscheint im Inventar und schaltet auf dem Dach den Button
+"📯 Trillerpfeife einsetzen — Hilfe rufen!" frei.
+```
+
+---
+
+## 5.5 🎙️ Sieg-Ton mit ElevenLabs
 
 Wieder **Model = v3** und Stimme **„Commander Brake – Strict & Dominant"**:
 

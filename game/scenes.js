@@ -51,6 +51,10 @@ const SCENES = {
         onEnter: () => {
             gameState.zombiesKilled = (gameState.zombiesKilled || 0) + 1;
             gameState.zombiesRemaining = Math.max(0, gameState.zombiesRemaining - 1);
+            if (!hasItem("schokoriegel")) {
+                addItem(ITEMS.schokoriegel);
+                toast("🍫 Schokoriegel eingesteckt!");
+            }
         },
         choices: [
             { label: "In den Klassenraum schleichen", target: "klassenraum_intro" }
@@ -90,6 +94,10 @@ const SCENES = {
         onEnter: () => {
             gameState.zombiesKilled = (gameState.zombiesKilled || 0) + 1;
             gameState.zombiesRemaining = Math.max(0, gameState.zombiesRemaining - 1);
+            if (!hasItem("verbandskasten")) {
+                addItem(ITEMS.verbandskasten);
+                toast("🩹 Verbandskasten gefunden!");
+            }
         },
         choices: [
             { label: "In die Turnhalle — Seil holen!", target: "turnhalle_intro" }
@@ -168,6 +176,10 @@ const SCENES = {
         onEnter: () => {
             gameState.zombiesKilled = (gameState.zombiesKilled || 0) + 1;
             gameState.zombiesRemaining = Math.max(0, gameState.zombiesRemaining - 1);
+            if (!hasItem("trillerpfeife")) {
+                addItem(ITEMS.trillerpfeife);
+                toast("📯 Trillerpfeife des Sportlehrers eingesteckt!");
+            }
         },
         choices: [
             { label: "🏆 Auf das Dach!", target: "dach" }
@@ -187,7 +199,20 @@ const SCENES = {
     dach: {
         id: "dach",
         image: "06_dach/assets/dach.png",
-        text: "Das Dach des Basketballplatzes. Unter dir die Horde, aber die kommen hier nicht rauf.\n\nDann — in der Ferne — das Rattern eines Hubschraubers. Er kommt näher. Näher. Wirbelt deine Haare. Ein Seil fällt runter.\n\n🎉 Du greifst zu.\n\n(Endszene-Asset Hubschrauber fehlt noch.)",
+        text: "Das Dach des Basketballplatzes. Unter dir die Horde, aber die kommen hier nicht rauf.\n\nWeit und breit kein Entkommen — außer nach oben. Irgendwo da draußen muss jemand sein.",
+        choices: [
+            {
+                label: "📯 Trillerpfeife einsetzen — Hilfe rufen!",
+                condition: () => hasItem("trillerpfeife"),
+                target: "dach_hubschrauber"
+            },
+            { label: "Warten und hoffen…", target: "dach_hubschrauber" }
+        ]
+    },
+    dach_hubschrauber: {
+        id: "dach_hubschrauber",
+        image: "06_dach/assets/hubschrauber.png",
+        text: "In der Ferne — ein Rattern. Ein Hubschrauber! Er kommt näher. Näher. Wirbelt deine Haare. Ein Seil fällt runter.\n\n🎉 Du greifst zu.",
         choices: [
             { label: "Nochmal spielen", target: "start" }
         ]
