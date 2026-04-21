@@ -154,11 +154,15 @@ Spielmechanik — vertikaler Kletterer:
 - Alex klettert automatisch nach oben (gleichmäßig, kein Button nötig).
 - Ein Fortschrittsbalken (schmaler Streifen, rechts am Rand, z. B. x=1240px) zeigt den Aufstieg
   von unten nach oben — bei 100% = Loch im Dach erreicht → onWin().
-- Fallende Hindernisse (runde Divs ~40px, rot/braun = Medizinbälle) spawnen zufällig auf einem
-  der 6 Seile oben und fallen nach unten. Bei Kollision mit Alex → loseHeart(1) aus engine.js,
-  kurze Unverwundbarkeit (300ms Flackern, Alex-Div opacity wechselt).
+- Fallende Hindernisse (runde Divs ~40px, rot/braun = Medizinbälle) spawnen immer bei y=0
+  (obere Kante des combat-area), zufällig auf einem der 6 Seile — nie relativ zu Alex' Position.
+  So bleibt die Reaktionszeit immer gleich, egal wie hoch Alex schon ist.
+  Die Bälle fallen nach unten und verschwinden, wenn sie den unteren Rand erreichen.
+  Bei Kollision mit Alex → loseHeart(1) aus engine.js, kurze Unverwundbarkeit (300ms Flackern).
 - Schwierigkeit steigt mit der Höhe: unter 33% = 2 Bälle gleichzeitig, 33–66% = 3 Bälle,
   über 66% = 4 Bälle, alle mit zunehmender Fallgeschwindigkeit.
+- Fairness-Regel: Ab 90% Fortschritt (kurz vor dem Ziel) spawnen keine neuen Bälle mehr —
+  bereits fallende Bälle laufen aus, dann ist der Weg frei.
 - gameState.hearts === 0 → cleanup, onLose().
 
 Danach:
