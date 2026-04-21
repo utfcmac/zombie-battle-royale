@@ -146,15 +146,49 @@ function renderSceneAudio(scene) {
         currentSceneAudio.pause();
         currentSceneAudio = null;
     }
+
+    if (!gameState.scenesAudioPlayed) gameState.scenesAudioPlayed = [];
+    const alreadyPlayed = gameState.scenesAudioPlayed.includes(scene.id);
+
+    // Overlay unabhängig von Audio zeigen — reiner "Spiel starten"-Button
+    if (scene.startOverlay && !alreadyPlayed) {
+        if (!scene.audio) {
+            // Kein Audio: Overlay zeigen, Klick schließt es nur
+            showStartOverlay(() => markScenePlayed(scene.id));
+            btn.classList.add("hidden");
+            btn.onclick = null;
+            return;
+        }
+        // Mit Audio: Overlay zeigen, Klick startet Audio
+        const audio = new Audio(scene.audio);
+        currentSceneAudio = audio;
+        wireAudioButton(btn, audio, scene.id);
+        showStartOverlay(() => {
+            audio.play().then(() => markScenePlayed(scene.id)).catch(() => {});
+        });
+        return;
+    }
+
     if (!scene.audio) {
         btn.classList.add("hidden");
         btn.classList.remove("playing");
         btn.onclick = null;
         return;
     }
+
     btn.classList.remove("hidden", "playing");
     const audio = new Audio(scene.audio);
     currentSceneAudio = audio;
+    wireAudioButton(btn, audio, scene.id);
+    if (!alreadyPlayed) {
+        audio.play()
+            .then(() => markScenePlayed(scene.id))
+            .catch(() => waitForInteractionThenPlay(audio, scene.id));
+    }
+}
+
+function wireAudioButton(btn, audio, sceneId) {
+    btn.classList.remove("hidden", "playing");
     const stopGlow = () => btn.classList.remove("playing");
     audio.addEventListener("play", () => btn.classList.add("playing"));
     audio.addEventListener("pause", stopGlow);
@@ -163,25 +197,10 @@ function renderSceneAudio(scene) {
         if (audio.duration && audio.currentTime >= audio.duration - 0.05) stopGlow();
     });
     btn.onclick = () => {
-        if (audio.paused) {
-            audio.play().catch(() => {});
-        } else {
-            audio.pause();
-            audio.currentTime = 0;
-        }
-        markScenePlayed(scene.id);
+        if (audio.paused) { audio.play().catch(() => {}); }
+        else { audio.pause(); audio.currentTime = 0; }
+        markScenePlayed(sceneId);
     };
-    if (!gameState.scenesAudioPlayed) gameState.scenesAudioPlayed = [];
-    const alreadyPlayed = gameState.scenesAudioPlayed.includes(scene.id);
-    if (scene.startOverlay && !alreadyPlayed) {
-        showStartOverlay(() => {
-            audio.play().then(() => markScenePlayed(scene.id)).catch(() => {});
-        });
-    } else if (!alreadyPlayed) {
-        audio.play()
-            .then(() => markScenePlayed(scene.id))
-            .catch(() => waitForInteractionThenPlay(audio, scene.id));
-    }
 }
 
 function showStartOverlay(onStart) {
