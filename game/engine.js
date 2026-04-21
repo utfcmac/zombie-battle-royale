@@ -314,7 +314,9 @@ function onGameOver() {
     showOverlay(`
         <h2>💀 Game Over</h2>
         <p>Du wurdest ein Zombie und unterrichtest jetzt Mathe für die Ewigkeit.</p>
-        <p style="margin-top: 12px;">Drück <b>Enter</b> für Neustart.</p>
+        <p style="margin-top: 16px;">
+            <button class="choice-btn" onclick="resetGame()">🔄 Nochmal spielen</button>
+        </p>
     `);
 }
 
