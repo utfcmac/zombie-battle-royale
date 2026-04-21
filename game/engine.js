@@ -46,6 +46,9 @@ function wireButtons() {
     document.getElementById("reset-btn").addEventListener("click", () => {
         if (confirm("Speicherstand wirklich löschen und neu starten?")) resetGame();
     });
+    document.querySelectorAll("#dev-nav button[data-scene]").forEach(btn => {
+        btn.addEventListener("click", () => showScene(btn.dataset.scene));
+    });
 }
 
 function wireKeyboard() {
@@ -83,6 +86,7 @@ function showScene(id) {
     clearSceneTimer();
     gameState.currentSceneId = id;
 
+    document.getElementById("start-overlay").classList.add("hidden");
     if (scene.onEnter) scene.onEnter();
 
     renderSceneImage(scene.image);
@@ -139,11 +143,26 @@ function renderSceneAudio(scene) {
         markScenePlayed(scene.id);
     };
     if (!gameState.scenesAudioPlayed) gameState.scenesAudioPlayed = [];
-    if (!gameState.scenesAudioPlayed.includes(scene.id)) {
+    const alreadyPlayed = gameState.scenesAudioPlayed.includes(scene.id);
+    if (scene.startOverlay && !alreadyPlayed) {
+        showStartOverlay(() => {
+            audio.play().then(() => markScenePlayed(scene.id)).catch(() => {});
+        });
+    } else if (!alreadyPlayed) {
         audio.play()
             .then(() => markScenePlayed(scene.id))
             .catch(() => waitForInteractionThenPlay(audio, scene.id));
     }
+}
+
+function showStartOverlay(onStart) {
+    const overlay = document.getElementById("start-overlay");
+    const btn = document.getElementById("start-btn");
+    overlay.classList.remove("hidden");
+    btn.onclick = () => {
+        overlay.classList.add("hidden");
+        onStart();
+    };
 }
 
 function waitForInteractionThenPlay(audio, sceneId) {

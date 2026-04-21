@@ -15,12 +15,24 @@
         <button id="help-btn" class="hud-cell" title="Hilfe (H)">❓</button>
         <button id="pause-btn" class="hud-cell" title="Pause (ESC)">⏸️</button>
         <button id="reset-btn" class="hud-cell" title="Neustart (löscht Speicherstand)">🔄</button>
+        <div id="dev-nav" title="Dev: Station anspringen">
+            <span class="dev-nav-label">DEV</span>
+            <button data-scene="start"              title="01 Schulhof">1</button>
+            <button data-scene="mensa_intro"        title="02 Mensa">2</button>
+            <button data-scene="klassenraum_intro"  title="03 Klassenraum">3</button>
+            <button data-scene="turnhalle_intro"    title="04 Turnhalle">4</button>
+            <button data-scene="basketballplatz"    title="05 Basketballplatz">5</button>
+            <button data-scene="dach"               title="06 Dach">6</button>
+        </div>
     </header>
 
     <main id="stage">
         <div id="scene-image-wrap">
             <img id="scene-image" alt="Szenen-Bild">
             <div id="combat-area" class="hidden"></div>
+            <div id="start-overlay" class="hidden">
+                <button id="start-btn">▶ Spiel starten</button>
+            </div>
         </div>
         <div id="scene-content">
             <div id="scene-text-wrap">

@@ -85,6 +85,41 @@ body {
     margin-left: 0;
 }
 
+#dev-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding-left: 12px;
+    border-left: 1px solid var(--border);
+}
+
+.dev-nav-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    opacity: 0.5;
+    margin-right: 2px;
+}
+
+#dev-nav button {
+    width: 24px;
+    height: 24px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    background: var(--panel-light);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--accent-dim);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    padding: 0;
+    line-height: 1;
+}
+
+#dev-nav button:hover {
+    background: var(--border);
+    color: var(--accent);
+}
+
 #hearts {
     color: var(--danger);
     letter-spacing: 2px;
@@ -141,6 +176,41 @@ body {
 
 #scene-image-wrap:has(.loaded)::after {
     content: none;
+}
+
+#start-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 10;
+}
+
+#start-overlay.hidden {
+    display: none;
+}
+
+#start-btn {
+    font-size: 1.5rem;
+    font-family: inherit;
+    font-weight: bold;
+    padding: 18px 48px;
+    border-radius: 8px;
+    border: 2px solid var(--accent);
+    background: rgba(15, 19, 17, 0.85);
+    color: var(--accent);
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: background 0.15s, transform 0.1s;
+    box-shadow: 0 0 24px rgba(126, 231, 135, 0.3);
+}
+
+#start-btn:hover {
+    background: var(--accent-dim);
+    color: var(--bg);
+    transform: scale(1.04);
 }
 
 #scene-text-wrap {
