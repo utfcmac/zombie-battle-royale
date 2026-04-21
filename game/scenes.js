@@ -16,7 +16,6 @@ const SCENES = {
     start: {
         id: "start",
         image: "01_schulhof/assets/pausenhof.png",
-        audio: "01_schulhof/assets/intro_voice.mp3",
         text: "Ein ganz normaler Schultag — bis der erste Schrei durch den Flur hallt.\n\nInnerhalb von Minuten ist die Schule voll. Überall stolpern Zombies herum — der Mathe-Lehrer, der Hausmeister, sogar deine Banknachbarin. Du rennst auf den Schulhof. Dein Baseballschläger liegt im Gebüsch, zum Glück!\n\nDie Mensa hat solide Türen. Vielleicht ein Zufluchtsort.",
         onEnter: () => {
             if (!hasItem("baseballschlaeger")) {
@@ -187,7 +186,7 @@ const SCENES = {
     // TODO: eigenes Dach-Asset fehlt noch — nutzt vorübergehend basketballplatz_kampf.png.
     dach: {
         id: "dach",
-        image: "05_basketballplatz/assets/basketballplatz_kampf.png",
+        image: "06_dach/assets/dach.png",
         text: "Das Dach des Basketballplatzes. Unter dir die Horde, aber die kommen hier nicht rauf.\n\nDann — in der Ferne — das Rattern eines Hubschraubers. Er kommt näher. Näher. Wirbelt deine Haare. Ein Seil fällt runter.\n\n🎉 Du greifst zu.\n\n(Endszene-Asset Hubschrauber fehlt noch.)",
         choices: [
             { label: "Nochmal spielen", target: "start" }
