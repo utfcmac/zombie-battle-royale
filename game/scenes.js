@@ -34,6 +34,7 @@ const SCENES = {
     mensa_intro: {
         id: "mensa_intro",
         image: "02_mensa/assets/mensa_intro.png",
+        audio: "02_mensa/assets/mensa_voice_intro.mp3",
         text: "Die Mensatüren stehen offen. Drinnen — überall Zombies. Zwischen den Tischen, hinter der Ausgabe, auf den Bänken. Kein Zufluchtsort. Kein Durchkommen.\n\nAber ein Stapel Plastikteller liegt griffbereit. Wenn du die Meute zurückdrängst, kommst du vielleicht zur Hintertür.\n\n(Minispiel: Teller werfen auf Zombies, die von der Ausgabe nach unten laufen.)",
         choices: [
             {
