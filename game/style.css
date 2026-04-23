@@ -77,12 +77,8 @@ body {
     background: var(--border);
 }
 
-#help-btn, #pause-btn {
+#help-btn {
     margin-left: auto;
-}
-
-#pause-btn {
-    margin-left: 0;
 }
 
 #dev-nav {

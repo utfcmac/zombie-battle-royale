@@ -11,8 +11,7 @@ const gameState = {
     zombiesRemaining: DEFAULT_ZOMBIES,
     zombiesKilled: 0,
     endingsUnlocked: [],
-    playerName: "Alex",
-    paused: false
+    playerName: "Alex"
 };
 
 let sceneTimerInterval = null;
@@ -43,7 +42,6 @@ function buildInventorySlots() {
 
 function wireButtons() {
     document.getElementById("help-btn").addEventListener("click", toggleHelp);
-    document.getElementById("pause-btn").addEventListener("click", togglePause);
     document.getElementById("reset-btn").addEventListener("click", () => {
         if (confirm("Speicherstand wirklich löschen und neu starten?")) resetGame();
     });
@@ -60,9 +58,6 @@ function wireKeyboard() {
             return;
         }
         switch (e.key) {
-            case "Escape":
-                togglePause();
-                break;
             case "h":
             case "H":
                 toggleHelp();
@@ -368,7 +363,6 @@ function startSceneTimer(seconds, onExpire) {
     gameState.timer = seconds;
     renderHUD();
     sceneTimerInterval = setInterval(() => {
-        if (gameState.paused) return;
         gameState.timer--;
         renderHUD();
         if (gameState.timer <= 0) {
@@ -428,21 +422,6 @@ function resetGame() {
     location.reload();
 }
 
-function togglePause() {
-    gameState.paused = !gameState.paused;
-    if (gameState.paused) {
-        showOverlay(`
-            <h2>⏸️ Pause</h2>
-            <p>Klick oder drück ESC zum Weitermachen.</p>
-            <p style="margin-top: 12px; color: var(--text-dim);">
-                <button class="choice-btn" onclick="resetGame()">Neustart (löscht Speicherstand)</button>
-            </p>
-        `);
-    } else {
-        hideOverlay();
-    }
-}
-
 function toggleHelp() {
     const overlay = document.getElementById("overlay");
     if (!overlay.classList.contains("hidden")) {
@@ -456,7 +435,6 @@ function toggleHelp() {
             <tr><td>1–9</td><td>Item aus Slot nutzen</td></tr>
             <tr><td>A / D oder ← →</td><td>Minispiele: Bewegen</td></tr>
             <tr><td>W / Space</td><td>Minispiele: Aktion</td></tr>
-            <tr><td>ESC</td><td>Pause</td></tr>
             <tr><td>H</td><td>Diese Hilfe</td></tr>
             <tr><td>Enter</td><td>Restart (bei Game Over)</td></tr>
         </table>
@@ -475,7 +453,6 @@ function showOverlay(html) {
 
 function hideOverlay() {
     document.getElementById("overlay").classList.add("hidden");
-    gameState.paused = false;
 }
 
 function toast(msg) {
