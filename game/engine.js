@@ -106,6 +106,8 @@ function stopSceneVideo() {
         currentSceneVideo.remove();
         currentSceneVideo = null;
     }
+    const existingBtn = document.getElementById("video-end-btn");
+    if (existingBtn) existingBtn.remove();
 }
 
 function renderSceneMedia(scene) {
@@ -117,14 +119,46 @@ function renderSceneMedia(scene) {
         video.src = scene.video;
         video.autoplay = true;
         video.playsInline = true;
-        video.loop = true;
-        video.muted = !!scene.audio;
+        video.loop = false;
+        video.muted = false;
         video.style.cssText = "position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;";
         document.getElementById("scene-image-wrap").appendChild(video);
         currentSceneVideo = video;
+        video.addEventListener("ended", () => onSceneVideoEnded(scene));
     } else {
         renderSceneImage(scene.image);
     }
+}
+
+function onSceneVideoEnded(scene) {
+    if (scene.audio && currentSceneAudio) {
+        const audio = currentSceneAudio;
+        const done = () => {
+            audio.removeEventListener("ended", done);
+            showVideoEndButton(scene);
+        };
+        audio.addEventListener("ended", done);
+        audio.play()
+            .then(() => markScenePlayed(scene.id))
+            .catch(() => waitForInteractionThenPlay(audio, scene.id));
+    } else {
+        showVideoEndButton(scene);
+    }
+}
+
+function showVideoEndButton(scene) {
+    const wrap = document.getElementById("scene-image-wrap");
+    if (document.getElementById("video-end-btn")) return;
+    const choice = (scene.choices || [])[0];
+    if (!choice) return;
+    const btn = document.createElement("button");
+    btn.id = "video-end-btn";
+    btn.textContent = choice.label;
+    btn.addEventListener("click", () => {
+        if (choice.onSelect) choice.onSelect();
+        if (choice.target) showScene(choice.target);
+    });
+    wrap.appendChild(btn);
 }
 
 function renderSceneImage(src) {
@@ -180,7 +214,8 @@ function renderSceneAudio(scene) {
     const audio = new Audio(scene.audio);
     currentSceneAudio = audio;
     wireAudioButton(btn, audio, scene.id);
-    if (!alreadyPlayed) {
+    // Bei Video-Szenen erst nach dem Video abspielen (onSceneVideoEnded)
+    if (!alreadyPlayed && !scene.video) {
         audio.play()
             .then(() => markScenePlayed(scene.id))
             .catch(() => waitForInteractionThenPlay(audio, scene.id));

@@ -67,7 +67,7 @@ function startBasketballAusweichen(onWin, onLose) {
         if (state.wave === n) return;
         state.wave = n;
         waveEl.textContent = `Welle ${n}`;
-        if (n === 2) { state.ballInterval = 850; state.ballSpeed = 400; }
+        if (n === 2) { state.ballInterval = 700; state.ballSpeed = 440; }
         if (n === 3) { state.ballInterval = 650; state.ballSpeed = 470; state.bouncingBalls = true; }
     }
 

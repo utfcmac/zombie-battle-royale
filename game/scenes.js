@@ -180,7 +180,8 @@ const SCENES = {
     },
     basketballplatz_sieg: {
         id: "basketballplatz_sieg",
-        image: "05_basketballplatz/assets/basketballplatz_kampf.png",
+        image: "05_basketballplatz/assets/basketballplatz_sieg.png",
+        audio: "05_basketballplatz/assets/basketball_voice_sieg.mp3",
         text: "Der Sportlehrer geht zu Boden. Du schnappst dir einen Ständer, wirfst das Seil über den Dachrand — erster Versuch sitzt. Hand über Hand. Du bist oben.",
         onEnter: () => {
             gameState.zombiesKilled = (gameState.zombiesKilled || 0) + 1;
@@ -207,6 +208,7 @@ const SCENES = {
     dach: {
         id: "dach",
         image: "06_dach/assets/dach.png",
+        audio: "06_dach/assets/dach_voice_ankunft.mp3",
         text: "Das Dach des Basketballplatzes. Unter dir die Horde, aber die kommen hier nicht rauf.\n\nWeit und breit kein Entkommen — außer nach oben. Irgendwo da draußen muss jemand sein.",
         choices: [
             {
@@ -220,6 +222,7 @@ const SCENES = {
     dach_hubschrauber: {
         id: "dach_hubschrauber",
         image: "06_dach/assets/hubschrauber.png",
+        audio: "06_dach/assets/dach_voice_hubschrauber.mp3",
         text: "In der Ferne — ein Rattern. Ein Hubschrauber! Er kommt näher. Näher. Wirbelt deine Haare. Ein Seil fällt runter.\n\n🎉 Du greifst zu.",
         choices: [
             { label: "Einsteigen!", target: "dach_abflug" }
@@ -228,6 +231,7 @@ const SCENES = {
     dach_abflug: {
         id: "dach_abflug",
         video: "06_dach/assets/dach_ende.mp4",
+        audio: "06_dach/assets/dach_voice_abflug.mp3",
         text: "Du bist drin. Die Tür fällt ins Schloss.\n\nUnter dir schrumpft die Schule. Die Zombies — winzig.\n\nDu hast überlebt. Diesmal.",
         choices: [
             { label: "🔄 Nochmal spielen", target: "start" }
