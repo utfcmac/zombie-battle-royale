@@ -39,9 +39,9 @@ const SCENES = {
         choices: [
             {
                 label: "🍽️ Teller schmeißen und durch!",
-                onSelect: () => placeholderMinigame(
-                    "Teller werfen",
-                    () => showScene("mensa_sieg")
+                onSelect: () => startTellerWerfen(
+                    () => showScene("mensa_sieg"),
+                    () => showScene("mensa_fail")
                 )
             },
             { label: "Zurück auf den Schulhof", target: "start" }
@@ -49,7 +49,8 @@ const SCENES = {
     },
     mensa_sieg: {
         id: "mensa_sieg",
-        image: "02_mensa/assets/mensa_kampf.png",
+        image: "02_mensa/assets/mensa_sieg.png",
+        audio: "02_mensa/assets/mensa_voice_sieg.mp3",
         text: "Du holzt dich durch bis zur Hintertür und drückst sie zu. Die Mensa ist verloren — kein Zufluchtsort mehr.\n\nAber durch den Flur dahinter: ein offenes Klassenzimmer. Türe auf, reinschlüpfen, Türe zu. Erst mal Luft holen.",
         onEnter: () => {
             gameState.zombiesKilled = (gameState.zombiesKilled || 0) + 1;
@@ -75,7 +76,8 @@ const SCENES = {
     // ---------- Klassenraum (Minispiel: Labyrinth) ----------
     klassenraum_intro: {
         id: "klassenraum_intro",
-        image: "03_klassenraum/assets/klassenraum_kampf.png",
+        image: "03_klassenraum/assets/klassenraum_intro.png",
+        audio: "03_klassenraum/assets/klassenraum_voice_intro.mp3",
         text: "Du drückst dich unter einen umgekippten Tisch. Stille — fast.\n\nDann Schritte im Flur. Sie haben dich aufgespürt. Die Tür fliegt auf, Zombies strömen rein, zwischen Tischen und Rucksäcken. Die Hintertür ist dein einziger Ausweg — und sie ist auf der anderen Seite des Raums.\n\n(Minispiel: Top-down — durch das Tisch-Labyrinth zur Hintertür, ohne erwischt zu werden.)",
         choices: [
             {
@@ -92,7 +94,8 @@ const SCENES = {
     },
     klassenraum_sieg: {
         id: "klassenraum_sieg",
-        image: "03_klassenraum/assets/klassenraum_kampf.png",
+        image: "03_klassenraum/assets/klassenraum_sieg.png",
+        audio: "03_klassenraum/assets/klassenraum_voice_sieg.mp3",
         text: "Letzte Lücke — du schlüpfst durch und wirfst die Brandschutztür ins Schloss. Dahinter: die Turnhalle.\n\nKletterseile. Wenn du auf ein Dach kommst, bist du weg von hier.",
         onEnter: () => {
             gameState.zombiesKilled = (gameState.zombiesKilled || 0) + 1;
@@ -118,14 +121,15 @@ const SCENES = {
     // ---------- Turnhalle (Minispiel: Seilklettern) ----------
     turnhalle_intro: {
         id: "turnhalle_intro",
-        image: "04_turnhalle/assets/turnhalle_kampf.png",
+        image: "04_turnhalle/assets/turnhalle_intro.png",
+        audio: "04_turnhalle/assets/turnhalle_voice_intro.mp3",
         text: "Die Turnhalle. Kletterseile hängen von der Decke — genau das, was du brauchst. Aber ein paar Zombies sind schon drin, und Medizinbälle rollen rum.\n\nHoch ans Seil, raus über die Dachluke. Schnell.\n\n(Minispiel: Seil hochklettern, herabfliegenden Gegenständen ausweichen.)",
         choices: [
             {
                 label: "🪢 Ans Seil und hoch!",
-                onSelect: () => placeholderMinigame(
-                    "Seilklettern",
-                    () => showScene("turnhalle_sieg")
+                onSelect: () => startSeilklettern(
+                    () => showScene("turnhalle_sieg"),
+                    () => showScene("turnhalle_fail")
                 )
             },
             { label: "Zurück zum Klassenraum", target: "klassenraum_sieg" }
@@ -133,8 +137,9 @@ const SCENES = {
     },
     turnhalle_sieg: {
         id: "turnhalle_sieg",
-        image: "04_turnhalle/assets/turnhalle_kampf.png",
-        text: "Oben — aber das Turnhallendach endet im Nichts. Kein Nachbargebäude, kein Vorsprung. Nur Luft.\n\nWenigstens hast du ein Seil mitgenommen. Du kletterst am Abflussrohr wieder runter. Mit letzter Kraft: zum Basketballplatz. Der ist eingezäunt, draußen alles voll Zombies. Aber über dem überdachten Bereich — ein Dach. Das ist deine letzte Chance.",
+        image: "04_turnhalle/assets/turnhalle_sieg.png",
+        audio: "04_turnhalle/assets/turnhalle_voice_sieg.mp3",
+        text: "Bälle von oben und die Zombies klettern die Seile hoch. Du versuchst es woanders.\n\nWenigstens hast du dir ein Seil geschnappt. Mit letzter Kraft: zum Basketballplatz. Der ist eingezäunt, draußen alles voll Zombies. Aber über dem überdachten Bereich — ein Dach. Das ist deine letzte Chance.",
         onEnter: () => {
             if (!hasItem("seil")) {
                 addItem(ITEMS.seil);
@@ -158,6 +163,7 @@ const SCENES = {
     basketballplatz: {
         id: "basketballplatz",
         image: "05_basketballplatz/assets/basketballplatz_intro.png",
+        audio: "05_basketballplatz/assets/basketball_voice_intro.mp3",
         text: "Der Basketballplatz — eingezäunt, und draußen wimmelt es von Zombies. Kein Entkommen nach vorne.\n\nAber da: das Dach über dem überdachten Bereich. Mit dem Seil erreichbar — wenn du erst an den Zombie-Sportlehrer vorbeikommst. Der hat die Pfeife um den Hals, den Ball in der Hand, und er hat dich entdeckt.\n\nSteuerung: A / D (oder ← →) zum Ausweichen. Jeder Ball = -1 ❤️. 30 Sekunden durchhalten.",
         choices: [
             {

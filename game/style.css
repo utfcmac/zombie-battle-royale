@@ -368,6 +368,257 @@ body {
 }
 .bb-ball { font-size: 36px; }
 
+/* Minispiel: Teller werfen (Mensa) */
+#combat-area.tw-combat {
+    background: rgba(0, 0, 0, 0.35);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: stretch;
+    transition: background 0.12s;
+}
+
+#combat-area.tw-hit-flash {
+    background: rgba(255, 60, 60, 0.5) !important;
+}
+
+.tw-hud {
+    background: rgba(15, 19, 17, 0.88);
+    border-bottom: 1px solid var(--accent-dim);
+    padding: 8px 16px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    color: var(--text);
+    font-size: 0.95rem;
+    flex: 0 0 auto;
+}
+.tw-wave { color: var(--accent); font-weight: bold; letter-spacing: 1px; }
+.tw-score { font-variant-numeric: tabular-nums; }
+.tw-info { margin-left: auto; color: var(--text-dim); font-size: 0.85rem; }
+
+.tw-field {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.tw-player, .tw-zombie, .tw-plate {
+    position: absolute;
+    top: 0;
+    left: 0;
+    will-change: transform;
+    pointer-events: none;
+    user-select: none;
+}
+
+.tw-player {
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.85)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.9));
+}
+
+.tw-zombie {
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.75));
+}
+
+@keyframes tw-zombie-hit-flash {
+    0%   { opacity: 1; filter: brightness(3) drop-shadow(0 0 10px rgba(255, 255, 255, 1)); }
+    25%  { opacity: 0; }
+    50%  { opacity: 1; filter: brightness(3.5) drop-shadow(0 0 14px rgba(255, 220, 120, 1)); }
+    75%  { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+.tw-zombie.tw-zombie-hit {
+    animation: tw-zombie-hit-flash 0.17s ease-out forwards;
+    pointer-events: none;
+}
+
+.tw-plate {
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.45), inset 0 -2px 4px rgba(0, 0, 0, 0.18), inset 0 2px 3px rgba(255, 255, 255, 0.9);
+}
+
+/* Minispiel: Labyrinth (Klassenraum) */
+#combat-area.lab-combat {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    transition: background 0.12s;
+}
+
+#combat-area.lab-hit-flash {
+    background: rgba(255, 60, 60, 0.55) !important;
+}
+
+.lab-hud {
+    background: rgba(15, 19, 17, 0.88);
+    border-bottom: 1px solid var(--accent-dim);
+    padding: 8px 16px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    color: var(--text);
+    font-size: 0.95rem;
+    flex: 0 0 auto;
+    width: 100%;
+    justify-content: center;
+}
+.lab-title { color: var(--accent); font-weight: bold; letter-spacing: 1px; }
+.lab-info { color: var(--text-dim); font-size: 0.85rem; }
+
+.lab-field {
+    position: relative;
+    flex: 0 0 auto;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.lab-wall, .lab-player, .lab-zombie {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    user-select: none;
+    will-change: transform;
+}
+
+.lab-wall {
+    object-fit: cover;
+    filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.6));
+}
+
+.lab-player {
+    object-fit: contain;
+    z-index: 5;
+    transition: transform 90ms ease-out;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.95)) drop-shadow(0 3px 5px rgba(0, 0, 0, 0.9));
+}
+
+.lab-zombie {
+    object-fit: contain;
+    z-index: 4;
+    transition: transform 220ms ease-in-out;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.85));
+}
+
+.lab-exit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 4px solid var(--accent);
+    box-sizing: border-box;
+    z-index: 2;
+    animation: lab-exit-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes lab-exit-pulse {
+    0%, 100% { box-shadow: inset 0 0 14px rgba(126, 231, 135, 0.35), 0 0 8px var(--accent-dim); }
+    50%      { box-shadow: inset 0 0 26px rgba(126, 231, 135, 0.75), 0 0 22px var(--accent); }
+}
+
+/* Minispiel: Seilklettern (Turnhalle) */
+#combat-area.sk-combat {
+    background: rgba(0, 0, 0, 0.35);
+    padding: 0;
+    display: block;
+    transition: background 0.12s;
+}
+
+#combat-area.sk-hit-flash {
+    background: rgba(255, 60, 60, 0.5) !important;
+}
+
+.sk-hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(15, 19, 17, 0.85);
+    border-bottom: 1px solid var(--accent-dim);
+    padding: 8px 16px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    color: var(--text);
+    font-size: 0.95rem;
+    z-index: 10;
+}
+.sk-title { color: var(--accent); font-weight: bold; letter-spacing: 1px; }
+.sk-info { margin-left: auto; color: var(--text-dim); font-size: 0.85rem; }
+
+.sk-field {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.sk-rope {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(90deg, #6b4a2c 0%, #a67847 50%, #6b4a2c 100%);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+    border-radius: 3px;
+    pointer-events: none;
+}
+
+.sk-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: auto;
+    pointer-events: none;
+    user-select: none;
+    z-index: 3;
+    transition: transform 120ms ease-out, opacity 0.05s;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.9));
+}
+
+.sk-ball {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #d8642a 0%, #8a3512 70%, #4a1804 100%);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7), inset -3px -4px 6px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.sk-progress {
+    position: absolute;
+    right: 28px;
+    top: 56px;
+    bottom: 24px;
+    width: 14px;
+    background: rgba(15, 19, 17, 0.75);
+    border: 1px solid var(--accent-dim);
+    border-radius: 7px;
+    overflow: hidden;
+    z-index: 5;
+}
+
+.sk-progress-fill {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 0%;
+    background: linear-gradient(180deg, var(--accent) 0%, var(--accent-dim) 100%);
+    transition: height 0.1s linear;
+}
+
 #stage.combat-active #scene-image {
     filter: brightness(0.75) saturate(0.25) blur(2px);
     transition: filter 0.3s ease;
