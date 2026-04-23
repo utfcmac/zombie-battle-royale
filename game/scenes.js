@@ -16,6 +16,7 @@ const SCENES = {
     start: {
         id: "start",
         image: "01_schulhof/assets/pausenhof.png",
+        audio: "01_schulhof/assets/intro_voice.mp3",
         startOverlay: true,
         text: "Ein ganz normaler Schultag — bis der erste Schrei durch den Flur hallt.\n\nInnerhalb von Minuten ist die Schule voll. Überall stolpern Zombies herum — der Mathe-Lehrer, der Hausmeister, sogar deine Banknachbarin. Du rennst auf den Schulhof. Dein Baseballschläger liegt im Gebüsch, zum Glück!\n\nDie Mensa hat solide Türen. Vielleicht ein Zufluchtsort.",
         onEnter: () => {
